@@ -156,6 +156,9 @@ class Updater(object):
 
         Returns:
             :obj:`Queue`: The update queue that can be filled from the main thread.
+
+        Note:
+            Server must user a valid SSL. Viber doesn't support self signed certificates.
     """
 
         checked_event_types = []
@@ -189,11 +192,11 @@ class Updater(object):
 
     def _start_webhook(self, listen, port, url_path):
 
-        self.logger.debug('Updater thread started (webhook)')
         if not url_path.startswith('/'):
             url_path = '/{0}'.format(url_path)
 
         self.httpd = WebhookServer((listen, port), WebhookHandler, self.event_queue, url_path, self.bot)
+        self.logger.debug('Updater thread started (webhook) on "{}"'.format(url_path))
 
         self.httpd.serve_forever(poll_interval=1)
 
