@@ -1,3 +1,4 @@
+import signal
 from datetime import datetime
 
 from future.utils import string_types
@@ -70,3 +71,13 @@ def get_hex(value, var_name):
                 if ch not in "1234567890ABCDEFabcdef":
                     raise TypeError("{var_name} must be valid hex color value".format(var_name=var_name))
     return value
+
+
+_signames = {v: k
+             for k, v in reversed(sorted(vars(signal).items()))
+             if k.startswith('SIG') and not k.startswith('SIG_')}
+
+
+def get_signal_name(signum):
+    """Returns the signal name of the given signal number."""
+    return _signames[signum]

@@ -9,14 +9,13 @@ from threading import Thread, current_thread, Lock, Event
 from time import sleep
 
 from queue import Queue
-from telegram.utils.helpers import get_signal_name
 
 from viber.bot import Bot
 from viber.enums import EventType
 from viber.error import ViberError, RetryAfter, TimedOut, InvalidToken
 from viber.ext.dispatcher import Dispatcher
 from viber.ext.jobqueue import JobQueue
-from viber.utils.helpers import get_enum
+from viber.utils.helpers import get_enum, get_signal_name
 from viber.utils.request import Request
 from viber.utils.webhookhandler import WebhookServer, WebhookHandler
 
