@@ -73,7 +73,7 @@ class Dispatcher(object):
         self.process_silent_events = process_silent_events
 
         self.handlers = {}
-        """Dict[:obj:`int`, List[:class:`telegram.ext.Handler`]]: Holds the handlers per group."""
+        """Dict[:obj:`int`, List[:class:`viber.ext.Handler`]]: Holds the handlers per group."""
         self.error_handlers = []
         """List[:obj:`callable`]: A list of errorHandlers."""
         self.groups = []
@@ -332,7 +332,7 @@ class Dispatcher(object):
 
             # Dispatch any error.
             except ViberError as ve:
-                self.logger.warning('A TelegramError was raised while processing the Update')
+                self.logger.warning('A ViberError was raised while processing the Update')
 
                 try:
                     self.dispatch_error(event, ve)

@@ -1,9 +1,6 @@
 import re
-import warnings
 
 from future.utils import string_types
-
-from telegram import Update
 
 from viber.event import Event
 from .handler import Handler

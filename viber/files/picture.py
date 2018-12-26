@@ -27,11 +27,11 @@ class Picture(ViberObject):
 
     Attributes:
         file_path (:obj:`str`): URL for this picture.
-        bot (:class:`telegram.Bot`): Optional. The Bot to use for instance methods.
+        bot (:class:`viber.Bot`): Optional. The Bot to use for instance methods.
 
     Args:
         file_path (:obj:`str`): URL for this picture.
-        bot (:class:`telegram.Bot`, optional): The Bot to use for instance methods.
+        bot (:class:`viber.Bot`, optional): The Bot to use for instance methods.
         **kwargs (:obj:`dict`): Arbitrary keyword arguments.
 
     """

@@ -1,10 +1,9 @@
 import json
 from abc import ABCMeta
-from future.utils import string_types
 
 
 class ViberObject(object):
-    """Base class for most telegram objects."""
+    """Base class for most viber objects."""
 
     __metaclass__ = ABCMeta
     _id_attrs = ()

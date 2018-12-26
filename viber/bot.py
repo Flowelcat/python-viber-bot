@@ -59,7 +59,7 @@ def message(func):
 
 class Bot(ViberObject):
     """
-    This object represents a Telegram Bot.
+    This object represents a Viber Bot.
 
     Args:
        token (:obj:`str`): Bot's unique authentication.
