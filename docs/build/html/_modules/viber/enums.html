@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viber.enums &mdash; python-viber-bot  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> python-viber-bot
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../viber.html">viber package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">python-viber-bot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>viber.enums</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for viber.enums</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">enum</span>
+
+<div class="viewcode-block" id="KeyboardType"><a class="viewcode-back" href="../../viber.html#viber.enums.KeyboardType">[docs]</a><span class="k">class</span> <span class="nc">KeyboardType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">keyboard</span> <span class="o">=</span> <span class="s1">&#39;keyboard&#39;</span>
+    <span class="n">rich_media</span> <span class="o">=</span> <span class="s1">&#39;rich_media&#39;</span></div>
+
+<div class="viewcode-block" id="FavoritesMetadataType"><a class="viewcode-back" href="../../viber.html#viber.enums.FavoritesMetadataType">[docs]</a><span class="k">class</span> <span class="nc">FavoritesMetadataType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">gif</span> <span class="o">=</span> <span class="s1">&#39;gif&#39;</span>
+    <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;link&#39;</span>
+    <span class="n">video</span> <span class="o">=</span> <span class="s1">&#39;video&#39;</span></div>
+
+<div class="viewcode-block" id="InputFieldState"><a class="viewcode-back" href="../../viber.html#viber.enums.InputFieldState">[docs]</a><span class="k">class</span> <span class="nc">InputFieldState</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &#39;regular&#39; - display regular size input field.</span>
+<span class="sd">    &#39;minimized&#39; - display input field minimized by default.</span>
+<span class="sd">    &#39;hidden&#39; - hide the input field.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">regular</span> <span class="o">=</span> <span class="s1">&#39;regular&#39;</span>
+    <span class="n">minimized</span> <span class="o">=</span> <span class="s1">&#39;minimized&#39;</span>
+    <span class="n">hidden</span> <span class="o">=</span> <span class="s1">&#39;hidden&#39;</span></div>
+
+
+<div class="viewcode-block" id="ButtonActionType"><a class="viewcode-back" href="../../viber.html#viber.enums.ButtonActionType">[docs]</a><span class="k">class</span> <span class="nc">ButtonActionType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">reply</span> <span class="o">=</span> <span class="s1">&#39;reply&#39;</span>
+    <span class="n">open_url</span> <span class="o">=</span> <span class="s1">&#39;open-url&#39;</span>
+    <span class="n">share_phone</span> <span class="o">=</span> <span class="s1">&#39;share-phone&#39;</span>
+    <span class="n">location_picker</span> <span class="o">=</span> <span class="s1">&#39;location-picker&#39;</span>
+    <span class="n">none</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span></div>
+
+
+<div class="viewcode-block" id="MessageType"><a class="viewcode-back" href="../../viber.html#viber.enums.MessageType">[docs]</a><span class="k">class</span> <span class="nc">MessageType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;text&#39;</span>
+    <span class="n">picture</span> <span class="o">=</span> <span class="s1">&#39;picture&#39;</span>
+    <span class="n">video</span> <span class="o">=</span> <span class="s1">&#39;video&#39;</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;file&#39;</span>
+    <span class="n">sticker</span> <span class="o">=</span> <span class="s1">&#39;sticker&#39;</span>
+    <span class="n">contact</span> <span class="o">=</span> <span class="s1">&#39;contact&#39;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;url&#39;</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="s1">&#39;location&#39;</span>
+    <span class="n">rich_media</span> <span class="o">=</span> <span class="s1">&#39;rich_media&#39;</span></div>
+
+
+<div class="viewcode-block" id="MediaType"><a class="viewcode-back" href="../../viber.html#viber.enums.MediaType">[docs]</a><span class="k">class</span> <span class="nc">MediaType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">picture</span> <span class="o">=</span> <span class="s1">&#39;picture&#39;</span>
+    <span class="n">gif</span> <span class="o">=</span> <span class="s1">&#39;gif&#39;</span></div>
+
+
+<div class="viewcode-block" id="ScaleType"><a class="viewcode-back" href="../../viber.html#viber.enums.ScaleType">[docs]</a><span class="k">class</span> <span class="nc">ScaleType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">crop</span> <span class="o">=</span> <span class="s1">&#39;crop&#39;</span>
+    <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;fill&#39;</span>
+    <span class="n">fit</span> <span class="o">=</span> <span class="s1">&#39;fit&#39;</span></div>
+
+
+<div class="viewcode-block" id="VerticalAlign"><a class="viewcode-back" href="../../viber.html#viber.enums.VerticalAlign">[docs]</a><span class="k">class</span> <span class="nc">VerticalAlign</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">top</span> <span class="o">=</span> <span class="s1">&#39;top&#39;</span>
+    <span class="n">middle</span> <span class="o">=</span> <span class="s1">&#39;middle&#39;</span>
+    <span class="n">bottom</span> <span class="o">=</span> <span class="s1">&#39;bottom&#39;</span></div>
+
+
+<div class="viewcode-block" id="HorizontalAlign"><a class="viewcode-back" href="../../viber.html#viber.enums.HorizontalAlign">[docs]</a><span class="k">class</span> <span class="nc">HorizontalAlign</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="s1">&#39;center&#39;</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span></div>
+
+
+<div class="viewcode-block" id="TextSize"><a class="viewcode-back" href="../../viber.html#viber.enums.TextSize">[docs]</a><span class="k">class</span> <span class="nc">TextSize</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">small</span> <span class="o">=</span> <span class="s1">&#39;small&#39;</span>
+    <span class="n">regular</span> <span class="o">=</span> <span class="s1">&#39;regular&#39;</span>
+    <span class="n">large</span> <span class="o">=</span> <span class="s1">&#39;large&#39;</span></div>
+
+
+<div class="viewcode-block" id="OpenURLType"><a class="viewcode-back" href="../../viber.html#viber.enums.OpenURLType">[docs]</a><span class="k">class</span> <span class="nc">OpenURLType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">internal</span> <span class="o">=</span> <span class="s1">&#39;internal&#39;</span>
+    <span class="n">external</span> <span class="o">=</span> <span class="s1">&#39;external&#39;</span></div>
+
+
+<div class="viewcode-block" id="OpenURLMediaType"><a class="viewcode-back" href="../../viber.html#viber.enums.OpenURLMediaType">[docs]</a><span class="k">class</span> <span class="nc">OpenURLMediaType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">not_media</span> <span class="o">=</span> <span class="s1">&#39;not-media&#39;</span>
+    <span class="n">video</span> <span class="o">=</span> <span class="s1">&#39;video&#39;</span>
+    <span class="n">gif</span> <span class="o">=</span> <span class="s1">&#39;gif&#39;</span>
+    <span class="n">picture</span> <span class="o">=</span> <span class="s1">&#39;picture&#39;</span></div>
+
+
+<div class="viewcode-block" id="InternalBrowserActionButton"><a class="viewcode-back" href="../../viber.html#viber.enums.InternalBrowserActionButton">[docs]</a><span class="k">class</span> <span class="nc">InternalBrowserActionButton</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &#39;forward&#39; - will open the forward via Viber screen and share current URL or predefined URL.</span>
+<span class="sd">    &#39;send&#39; - sends the currently opened URL as an URL message.</span>
+<span class="sd">    &#39;open-externally&#39; - opens external browser with the current URL.</span>
+<span class="sd">    &#39;send-to-bot&#39; - (api level 6) sends reply data in msgInfo to bot in order to receive message.</span>
+<span class="sd">    &#39;none&#39; - will not display any button</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">forward</span> <span class="o">=</span> <span class="s1">&#39;forward&#39;</span>
+    <span class="n">send</span> <span class="o">=</span> <span class="s1">&#39;send&#39;</span>
+    <span class="n">open_externally</span> <span class="o">=</span> <span class="s1">&#39;open-externally&#39;</span>
+    <span class="n">send_to_bot</span> <span class="o">=</span> <span class="s1">&#39;send-to-bot&#39;</span>
+    <span class="n">none</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span></div>
+
+
+<div class="viewcode-block" id="InternalBrowserTitleType"><a class="viewcode-back" href="../../viber.html#viber.enums.InternalBrowserTitleType">[docs]</a><span class="k">class</span> <span class="nc">InternalBrowserTitleType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &#39;default&#39; - the content in the page&#39;s &lt;OG:title&gt; element or in &lt;title&gt; tag.</span>
+<span class="sd">    &#39;domain&#39; - the top level domain.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">domain</span> <span class="o">=</span> <span class="s1">&#39;domain&#39;</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span></div>
+
+
+<div class="viewcode-block" id="InternalBrowserMode"><a class="viewcode-back" href="../../viber.html#viber.enums.InternalBrowserMode">[docs]</a><span class="k">class</span> <span class="nc">InternalBrowserMode</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">fullscreen</span> <span class="o">=</span> <span class="s1">&#39;fullscreen&#39;</span>
+    <span class="n">fullscreen_portrait</span> <span class="o">=</span> <span class="s1">&#39;fullscreen-portrait&#39;</span>
+    <span class="n">fullscreen_landscape</span> <span class="o">=</span> <span class="s1">&#39;fullscreen-landscape&#39;</span>
+    <span class="n">partial_size</span> <span class="o">=</span> <span class="s1">&#39;partial-size&#39;</span></div>
+
+
+<div class="viewcode-block" id="InternalBrowserFooterType"><a class="viewcode-back" href="../../viber.html#viber.enums.InternalBrowserFooterType">[docs]</a><span class="k">class</span> <span class="nc">InternalBrowserFooterType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &#39;default&#39; - display footer.</span>
+<span class="sd">    &#39;hidden&#39; - hide footer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span>
+    <span class="n">hidden</span> <span class="o">=</span> <span class="s1">&#39;hidden&#39;</span></div>
+
+
+<div class="viewcode-block" id="EventType"><a class="viewcode-back" href="../../viber.html#viber.enums.EventType">[docs]</a><span class="k">class</span> <span class="nc">EventType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">webhook</span> <span class="o">=</span> <span class="s1">&#39;webhook&#39;</span>
+    <span class="n">subscribed</span> <span class="o">=</span> <span class="s1">&#39;subscribed&#39;</span>
+    <span class="n">unsubscribed</span> <span class="o">=</span> <span class="s1">&#39;unsubscribed&#39;</span>
+    <span class="n">delivered</span> <span class="o">=</span> <span class="s1">&#39;delivered&#39;</span>
+    <span class="n">seen</span> <span class="o">=</span> <span class="s1">&#39;seen&#39;</span>
+    <span class="n">failed</span> <span class="o">=</span> <span class="s1">&#39;failed&#39;</span>
+    <span class="n">conversation_started</span> <span class="o">=</span> <span class="s1">&#39;conversation_started&#39;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;message&#39;</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Flowelcat
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

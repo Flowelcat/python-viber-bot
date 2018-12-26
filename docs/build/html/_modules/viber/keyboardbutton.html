@@ -1,0 +1,576 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viber.keyboardbutton &mdash; python-viber-bot  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> python-viber-bot
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../viber.html">viber package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">python-viber-bot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>viber.keyboardbutton</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for viber.keyboardbutton</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">viber</span> <span class="k">import</span> <span class="n">ViberObject</span>
+<span class="kn">from</span> <span class="nn">viber.error</span> <span class="k">import</span> <span class="n">ApiVersionError</span>
+<span class="kn">from</span> <span class="nn">viber.message</span> <span class="k">import</span> <span class="n">Location</span>
+
+<span class="kn">from</span> <span class="nn">viber.enums</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">viber.utils.helpers</span> <span class="k">import</span> <span class="n">get_enum</span><span class="p">,</span> <span class="n">get_hex</span>
+
+
+<div class="viewcode-block" id="InternalBrowser"><a class="viewcode-back" href="../../viber.html#viber.keyboardbutton.InternalBrowser">[docs]</a><span class="k">class</span> <span class="nc">InternalBrowser</span><span class="p">(</span><span class="n">ViberObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This object represents internal browser for the keyboard.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This object is api level 3</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        action_button (:obj:`InternalBrowserActionButton` | :obj:`str`): Optional. Action button in internal&#39;s browser navigation bar.</span>
+<span class="sd">        action_predefined_url (:obj:`str`): Optional. If action_button is &#39;send&#39; or &#39;forward&#39; then the value from this property will be used to be sent as message, otherwise ignored.</span>
+<span class="sd">        title_type (:obj:`InternalBrowserTitleType` | :obj:`str`): Optional. Type of title for internal browser if has no custom_title field.</span>
+<span class="sd">        custom_title (:obj:`str`): Optional. Custom text for internal&#39;s browser title, title_type will be ignored in case this key is presented.</span>
+<span class="sd">        mode (:obj:`InternalBrowserMode` | :obj:`str`): Optional. Indicates that browser should be opened in a full screen or in partial size (50% of screen height). Full screen mode can be with orientation lock (both orientations supported, only landscape or only portrait).</span>
+<span class="sd">        footer_type (:obj:`InternalBrowserFooterType` | :obj:`str`): Optional. Should the browser&#39;s footer will be displayed.</span>
+<span class="sd">        action_reply_data (:obj:`str`): Optional. Custom reply data for &#39;send-to-bot&#39; action_button that will be resent in msgInfo.</span>
+<span class="sd">        min_api_version (:obj:`int`): Optional.  Minimal api version.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_button</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">action_predefined_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">title_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">custom_title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">footer_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">action_reply_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">min_api_version</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">min_api_version</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ApiVersionError</span><span class="p">(</span><span class="s2">&quot;internal browser is api level 3&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_button</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">action_button</span><span class="p">,</span> <span class="n">InternalBrowserActionButton</span><span class="p">,</span> <span class="s1">&#39;action_button&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title_type</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">title_type</span><span class="p">,</span> <span class="n">InternalBrowserTitleType</span><span class="p">,</span> <span class="s1">&#39;title_type&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">InternalBrowserMode</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">footer_type</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">footer_type</span><span class="p">,</span> <span class="n">InternalBrowserFooterType</span><span class="p">,</span> <span class="s1">&#39;footer_type&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_predefined_url</span> <span class="o">=</span> <span class="n">action_predefined_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_title</span> <span class="o">=</span> <span class="n">custom_title</span>
+        <span class="k">if</span> <span class="n">action_reply_data</span> <span class="ow">and</span> <span class="n">min_api_version</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ApiVersionError</span><span class="p">(</span><span class="s2">&quot;action_reply_data is api level 6&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_reply_data</span> <span class="o">=</span> <span class="n">action_reply_data</span>
+
+<div class="viewcode-block" id="InternalBrowser.to_dict"><a class="viewcode-back" href="../../viber.html#viber.keyboardbutton.InternalBrowser.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_button</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ActionButton&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_button</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title_type</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TitleType&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">title_type</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">footer_type</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;FooterType&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">footer_type</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_predefined_url</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ActionPredefinedURL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_predefined_url</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_title</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;CustomTitle&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_title</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_reply_data</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ActionReplyData&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_reply_data</span>
+
+        <span class="k">return</span> <span class="n">data</span></div></div>
+
+
+<div class="viewcode-block" id="Map"><a class="viewcode-back" href="../../viber.html#viber.keyboardbutton.Map">[docs]</a><span class="k">class</span> <span class="nc">Map</span><span class="p">(</span><span class="n">Location</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This object represents map for the keyboard.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This object is api level 6</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        lat (:obj:`float`): Optional. Location latitude.</span>
+<span class="sd">        lon (:obj:`float`): Optional. Location longitude.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Map.to_dict"><a class="viewcode-back" href="../../viber.html#viber.keyboardbutton.Map.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lat</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lon</span>
+        <span class="k">return</span> <span class="n">data</span></div></div>
+
+
+<div class="viewcode-block" id="Frame"><a class="viewcode-back" href="../../viber.html#viber.keyboardbutton.Frame">[docs]</a><span class="k">class</span> <span class="nc">Frame</span><span class="p">(</span><span class="n">ViberObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This object represents frame for the keyboard.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This object is api level 6</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        border_width (:obj:`int`): Optional. Width of border.</span>
+<span class="sd">        border_color (:obj:`str`): Optional. Color of border in HEX format.</span>
+<span class="sd">        corner_radius (:obj:`int`): Optional. The border will be drawn with rounded corners.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">border_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">border_color</span><span class="o">=</span><span class="s1">&#39;#000000&#39;</span><span class="p">,</span>
+                 <span class="n">corner_radius</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">border_width</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">border_width</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;border_width must be int in range 0-10&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">corner_radius</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">corner_radius</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;corner_radius must be int in range 0-10&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">border_width</span> <span class="o">=</span> <span class="n">border_width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corner_radius</span> <span class="o">=</span> <span class="n">corner_radius</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">border_color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_hex</span><span class="p">(</span><span class="n">border_color</span><span class="p">,</span> <span class="s1">&#39;border_color&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Frame.to_dict"><a class="viewcode-back" href="../../viber.html#viber.keyboardbutton.Frame.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;BorderWidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">border_width</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;BorderColor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">border_color</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;CornerRadius&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">corner_radius</span>
+        <span class="k">return</span> <span class="n">data</span></div></div>
+
+
+<div class="viewcode-block" id="MediaPlayer"><a class="viewcode-back" href="../../viber.html#viber.keyboardbutton.MediaPlayer">[docs]</a><span class="k">class</span> <span class="nc">MediaPlayer</span><span class="p">(</span><span class="n">ViberObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This object represents media_player for the keyboard.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This object is api level 6</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        title (:obj:`str`): Optional. Media player&#39;s title (first line).</span>
+<span class="sd">        subtitle (:obj:`str`): Optional. Media player&#39;s subtitle (second line).</span>
+<span class="sd">        thumbnail_url (:obj:`str`): Optional. The URL for player&#39;s thumbnail (background).</span>
+<span class="sd">        loop (:obj:`bool`): Optional. Whether the media player should be looped forever or not.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">subtitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">thumbnail_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">loop</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subtitle</span> <span class="o">=</span> <span class="n">subtitle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">thumbnail_url</span> <span class="o">=</span> <span class="n">thumbnail_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">=</span> <span class="n">loop</span>
+
+<div class="viewcode-block" id="MediaPlayer.to_dict"><a class="viewcode-back" href="../../viber.html#viber.keyboardbutton.MediaPlayer.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subtitle</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Subtitle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subtitle</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">thumbnail_url</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ThumbnailURL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">thumbnail_url</span>
+
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Loop&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span>
+        <span class="k">return</span> <span class="n">data</span></div></div>
+
+
+<div class="viewcode-block" id="KeyboardButton"><a class="viewcode-back" href="../../viber.html#viber.keyboardbutton.KeyboardButton">[docs]</a><span class="k">class</span> <span class="nc">KeyboardButton</span><span class="p">(</span><span class="n">ViberObject</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_body</span><span class="p">,</span>
+                 <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">action_type</span><span class="o">=</span><span class="n">ButtonActionType</span><span class="o">.</span><span class="n">reply</span><span class="p">,</span>
+                 <span class="n">image</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bg_media</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bg_color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">min_api_version</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                 <span class="n">columns</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                 <span class="n">rows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">silent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bg_media_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bg_media_scale_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">image_scale_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bg_loop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">text_v_align</span><span class="o">=</span><span class="n">VerticalAlign</span><span class="o">.</span><span class="n">middle</span><span class="p">,</span>
+                 <span class="n">text_h_align</span><span class="o">=</span><span class="n">HorizontalAlign</span><span class="o">.</span><span class="n">center</span><span class="p">,</span>
+                 <span class="n">text_paddings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">text_opacity</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                 <span class="n">text_size</span><span class="o">=</span><span class="n">TextSize</span><span class="o">.</span><span class="n">regular</span><span class="p">,</span>
+                 <span class="n">open_url_type</span><span class="o">=</span><span class="n">OpenURLType</span><span class="o">.</span><span class="n">internal</span><span class="p">,</span>
+                 <span class="n">open_url_media_type</span><span class="o">=</span><span class="n">OpenURLMediaType</span><span class="o">.</span><span class="n">not_media</span><span class="p">,</span>
+                 <span class="n">text_bg_gradient_color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">text_should_fit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">internal_browser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="nb">map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">frame</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">media_player</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This object represents one button of the keyboard. For enums String can be</span>
+<span class="sd">        used instead of enum objects to specify value.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The :attr:`silent` is supported on devices running Viber version 6.7 and above.</span>
+<span class="sd">            The api level 3 is supported on devices running Viber version 7.6 and above.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            action_body (:obj:`str`): Text for reply and none ActionType, or URL for open-url.</span>
+<span class="sd">            text (:obj:`str`): Optional. Text to be displayed on the button. Can contain some HTML tags.</span>
+<span class="sd">            action_type (:obj:`ActionType` | :obj:`str`): Optional. Type of action pressing the button will perform.</span>
+<span class="sd">            image (:obj:`str`): Optional. URL of image to place on top of background (if any). Can be a partially transparent image that will allow showing some of the background. Will be placed with aspect to fill logic.</span>
+<span class="sd">            bg_media (:obj:`str`): Optional. URL for background media content (picture or gif). Will be placed with aspect to fill logic.</span>
+<span class="sd">            bg_color (:obj:`str`): Optional. Background color of button in HEX format.</span>
+<span class="sd">            min_api_version (:obj:`int`): Optional. Minimal api version.</span>
+<span class="sd">            columns (:obj:`int`): Optional. Button width in columns.</span>
+<span class="sd">            rows (:obj:`int`): Optional. Button height in rows.</span>
+<span class="sd">            silent (:obj:`bool`): Optional. Determine whether the user action is presented in the conversation.</span>
+<span class="sd">            bg_media_type (:obj:`MediaType` | :obj:`str`): Optional. Type of the background media.</span>
+<span class="sd">            bg_media_scale_type (:obj:`ScaleType` | :obj:`str`): Optional. Options for scaling the bounds of the background to the bounds of this view.</span>
+<span class="sd">            image_scale_type (:obj:`ScaleType` | :obj:`str`): Optional. Options for scaling the bounds of an image to the bounds of this view.</span>
+<span class="sd">            bg_loop (:obj:`bool`): Optional. When &#39;True&#39; - animated background media (gif) will loop continuously. When &#39;False&#39; - animated background media will play once and stop.</span>
+<span class="sd">            text_v_align (:obj:`VerticalAlign` | :obj:`str`): Optional. Vertical alignment of the text.</span>
+<span class="sd">            text_h_align (:obj:`HorizontalAlign` | :obj:`str`): Optional. Horizontal align of the text.</span>
+<span class="sd">            text_paddings (:obj:`list`): Optional. Custom paddings for the text in points. The value is an array of Integers [top, left, bottom, right.</span>
+<span class="sd">            text_opacity (:obj:`int`): Optional. Text opacity.</span>
+<span class="sd">            text_size (:obj:`TextSize` | :obj:`str`): Optional. Text size out of 3 available options.</span>
+<span class="sd">            open_url_type (:obj:`OpenURLType` | :obj:`str`): Optional. Determine the open-url action result, in app or external browser.</span>
+<span class="sd">            open_url_media_type (:obj:`OpenURLMediaType` | :obj:`str`): Optional. Determine the url media type. &#39;not-media&#39; - force browser usage. &#39;video&#39; - will be opened via media player. &#39;gif&#39; - client will play the gif in full screen mode. &#39;picture&#39; - client will open the picture in full screen mode.</span>
+<span class="sd">            text_bg_gradient_color (:obj:`str`): Optional. Background gradient to use under text in HEX format, works only when text_v_align is equal to &#39;top&#39; or &#39;bottom&#39;.</span>
+<span class="sd">            text_should_fit (:obj:`bool`): Optional. If true the size of text will decreased to fit (minimum size is 12).</span>
+<span class="sd">            internal_browser (:obj:`InternalBrowser`): Optional. Internal browser configuration for &#39;open-url&#39; action_type with &#39;internal&#39; open_url_type.</span>
+<span class="sd">            map (:obj:`Map`): Optional. Map configuration for &#39;open-map&#39; action_type with internal open_url_type.</span>
+<span class="sd">            frame (:obj:`Frame`): Optional. Draw frame above the background on the button, the size will be equal the size of the button.</span>
+<span class="sd">            media_player (:obj:`MediaPlayer`): Optional. Specifies media player options. Will be ignored if open_url_media_type is not &#39;video&#39; or &#39;audio&#39;.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Required</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_type</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">action_type</span><span class="p">,</span> <span class="n">ButtonActionType</span><span class="p">,</span> <span class="s1">&#39;action_type&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_body</span> <span class="o">=</span> <span class="n">action_body</span>
+        <span class="c1"># Optionals</span>
+        <span class="k">if</span> <span class="n">action_type</span> <span class="ow">is</span> <span class="n">ButtonActionType</span><span class="o">.</span><span class="n">reply</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">text</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">image</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">bg_media</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">bg_color</span><span class="p">:</span>
+            <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;With action reply must button must have one of the following: text, image, bg_media, bg_color&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_api_version</span> <span class="o">=</span> <span class="n">min_api_version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bg_media</span> <span class="o">=</span> <span class="n">bg_media</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bg_loop</span> <span class="o">=</span> <span class="n">bg_loop</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">silent</span> <span class="o">=</span> <span class="n">silent</span>
+        <span class="k">if</span> <span class="n">text_should_fit</span> <span class="ow">and</span> <span class="n">min_api_version</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ApiVersionError</span><span class="p">(</span><span class="s2">&quot;text_should_fit is api level 6&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_should_fit</span> <span class="o">=</span> <span class="n">text_should_fit</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bg_color</span> <span class="o">=</span> <span class="n">get_hex</span><span class="p">(</span><span class="n">bg_color</span><span class="p">,</span> <span class="s1">&#39;bg_color&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">columns</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">):</span>
+                <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;columns must be int in range 1-6&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
+
+        <span class="k">if</span> <span class="n">rows</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">columns</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;rows must be int in range 1-2&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bg_media_type</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">bg_media_type</span><span class="p">,</span> <span class="n">MediaType</span><span class="p">,</span> <span class="s1">&#39;bg_media_type&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bg_media_scale_type</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">bg_media_scale_type</span><span class="p">,</span> <span class="n">ScaleType</span><span class="p">,</span> <span class="s1">&#39;bg_media_scale_type&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_scale_type</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">image_scale_type</span><span class="p">,</span> <span class="n">ScaleType</span><span class="p">,</span> <span class="s1">&#39;image_scale_type&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_h_align</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">text_h_align</span><span class="p">,</span> <span class="n">HorizontalAlign</span><span class="p">,</span> <span class="s1">&#39;text_h_align&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_v_align</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">text_v_align</span><span class="p">,</span> <span class="n">VerticalAlign</span><span class="p">,</span> <span class="s1">&#39;text_v_align&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_size</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">text_size</span><span class="p">,</span> <span class="n">TextSize</span><span class="p">,</span> <span class="s1">&#39;text_size&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">open_url_type</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">open_url_type</span><span class="p">,</span> <span class="n">OpenURLType</span><span class="p">,</span> <span class="s1">&#39;open_url_type&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">open_url_media_type</span> <span class="o">=</span> <span class="n">get_enum</span><span class="p">(</span><span class="n">open_url_media_type</span><span class="p">,</span> <span class="n">OpenURLMediaType</span><span class="p">,</span> <span class="s1">&#39;open_url_media_type&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_media_scale_type</span> <span class="ow">and</span> <span class="n">min_api_version</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ApiVersionError</span><span class="p">(</span><span class="s2">&quot;bg_media_scale_type is api level 6&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_scale_type</span> <span class="ow">and</span> <span class="n">min_api_version</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ApiVersionError</span><span class="p">(</span><span class="s2">&quot;image_scale_type is api level 6&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">text_paddings</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">min_api_version</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ApiVersionError</span><span class="p">(</span><span class="s2">&quot;text_paddings is api level 4&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text_paddings</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_paddings</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">([</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">12</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">text_paddings</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">text_paddings</span> <span class="o">=</span> <span class="n">text_paddings</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;text_paddings must be list which contains 4 in values in range 0-12&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">text_paddings</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">text_opacity</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;text_opacity must be in in range 0-100&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_opacity</span> <span class="o">=</span> <span class="n">text_opacity</span>
+
+        <span class="k">if</span> <span class="n">text_bg_gradient_color</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">text_v_align</span> <span class="ow">is</span> <span class="n">VerticalAlign</span><span class="o">.</span><span class="n">top</span> <span class="ow">or</span> <span class="n">text_v_align</span> <span class="ow">is</span> <span class="n">VerticalAlign</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">text_bg_gradient_color</span> <span class="o">=</span> <span class="n">get_hex</span><span class="p">(</span><span class="n">text_bg_gradient_color</span><span class="p">,</span> <span class="s1">&#39;text_bg_gradient_color&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;text_bg_gradient_color can be set only if text_v_align is &#39;top&#39; or &#39;bottom&#39;&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">text_bg_gradient_color</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">internal_browser</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">min_api_version</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ApiVersionError</span><span class="p">(</span><span class="s2">&quot;internal_browser is api level 3&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_type</span> <span class="ow">is</span> <span class="n">ButtonActionType</span><span class="o">.</span><span class="n">open_url</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_url_type</span> <span class="ow">is</span> <span class="n">OpenURLType</span><span class="o">.</span><span class="n">internal</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">internal_browser</span><span class="p">,</span> <span class="n">InternalBrowser</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">internal_browser</span> <span class="o">=</span> <span class="n">internal_browser</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;internal_browser must be InternalBrowser instance and can be set only if action_type is &#39;open-url&#39; and open_url_type is &#39;internal&#39;&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">internal_browser</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">map</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">min_api_version</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ApiVersionError</span><span class="p">(</span><span class="s2">&quot;map is api level 6&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_type</span> <span class="ow">is</span> <span class="n">ButtonActionType</span><span class="o">.</span><span class="n">location_picker</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_url_type</span> <span class="ow">is</span> <span class="n">OpenURLType</span><span class="o">.</span><span class="n">internal</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">map</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="nb">map</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;map must be Map instance and can be set only if action_type is &#39;location-picker&#39; and open_url_type is &#39;internal&#39;&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">frame</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">min_api_version</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ApiVersionError</span><span class="p">(</span><span class="s2">&quot;frame is api level 6&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">Frame</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;frame must be Frame instance&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">media_player</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">min_api_version</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ApiVersionError</span><span class="p">(</span><span class="s2">&quot;media_player is api level 6&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_url_media_type</span> <span class="ow">is</span> <span class="n">OpenURLMediaType</span><span class="o">.</span><span class="n">video</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">media_player</span><span class="p">,</span> <span class="n">MediaPlayer</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">media_player</span> <span class="o">=</span> <span class="n">media_player</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;media_player must be MediaPlayer instance and can be set only if open_url_media_type is &#39;video&#39;&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">media_player</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="KeyboardButton.to_dict"><a class="viewcode-back" href="../../viber.html#viber.keyboardbutton.KeyboardButton.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ActionType&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_type</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ActionBody&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_body</span>
+
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Columns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Rows&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span>
+
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;BgLoop&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_loop</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TextVAlign&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_v_align</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TextHAlign&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_h_align</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TextPaddings&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_paddings</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TextOpacity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_opacity</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TextSize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_size</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;OpenURLType&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_url_type</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;OpenURLMediaType&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_url_media_type</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TextShouldFit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_should_fit</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">silent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;silent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">silent</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_api_version</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;minApiVersion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_api_version</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Image&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_media</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;BgMedia&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_media</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_color</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;BgColor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_color</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_media_type</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;BgMediaType&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_media_type</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_media_scale_type</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;BgMediaScaleType&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_media_scale_type</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_scale_type</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ImageScaleType&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_scale_type</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_bg_gradient_color</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TextBgGradientColor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_bg_gradient_color</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">internal_browser</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;InternalBrowser&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">internal_browser</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Map&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Frame&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_player</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;MediaPlayer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_player</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">data</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Flowelcat
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

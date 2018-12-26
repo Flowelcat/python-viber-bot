@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viber.Event &mdash; python-viber-bot  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="viber.Location" href="viber.location.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python-viber-bot
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="viber.html">viber package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="viber.ext.html">viber.ext package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.user.html">viber.User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.bot.html">viber.Bot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.contact.html">viber.Contact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.location.html">viber.Location</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">viber.Event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">python-viber-bot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="viber.html">viber package</a> &raquo;</li>
+        
+      <li>viber.Event</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/viber.event.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="viber-event">
+<h1>viber.Event<a class="headerlink" href="#viber-event" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="viber.Event">
+<em class="property">class </em><code class="descclassname">viber.</code><code class="descname">Event</code><span class="sig-paren">(</span><em>event</em>, <em>message_token</em>, <em>timestamp</em>, <em>chat_hostname=None</em>, <em>silent=None</em>, <em>user_id=None</em>, <em>desc=None</em>, <em>user=None</em>, <em>type=None</em>, <em>context=None</em>, <em>subscribed=None</em>, <em>message=None</em>, <em>sender=None</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">viber.base.ViberObject</span></code></p>
+<p>This object represents an incoming event.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">At most one of the optional parameters can be present in any given event.</p>
+</div>
+<dl class="attribute">
+<dt id="viber.Event.event">
+<code class="descname">event</code><a class="headerlink" href="#viber.Event.event" title="Permalink to this definition">¶</a></dt>
+<dd><p>The event’s unique identifier.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.enums.EventType</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Event.message_token">
+<code class="descname">message_token</code><a class="headerlink" href="#viber.Event.message_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. Unique identifier of the event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Event.timestamp">
+<code class="descname">timestamp</code><a class="headerlink" href="#viber.Event.timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. Time when message was created.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datetime.datetime</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Event.chat_hostname">
+<code class="descname">chat_hostname</code><a class="headerlink" href="#viber.Event.chat_hostname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. Chat hostname</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Event.silent">
+<code class="descname">silent</code><a class="headerlink" href="#viber.Event.silent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. Is message silent.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Event.user_id">
+<code class="descname">user_id</code><a class="headerlink" href="#viber.Event.user_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. User unique identifier.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Event.desc">
+<code class="descname">desc</code><a class="headerlink" href="#viber.Event.desc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. Description for falture events.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Event.user">
+<code class="descname">user</code><a class="headerlink" href="#viber.Event.user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. User instance for subscribed and conversation_started event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference internal" href="viber.user.html#viber.User" title="viber.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.User</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Event.type">
+<code class="descname">type</code><a class="headerlink" href="#viber.Event.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. Type for conversation_started event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Event.context">
+<code class="descname">context</code><a class="headerlink" href="#viber.Event.context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. Context for conversation_started event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Event.subscribed">
+<code class="descname">subscribed</code><a class="headerlink" href="#viber.Event.subscribed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. Is user subscribed for conversation_started event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Event.message">
+<code class="descname">message</code><a class="headerlink" href="#viber.Event.message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. Message attached to event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">viber.Message</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Event.sender">
+<code class="descname">sender</code><a class="headerlink" href="#viber.Event.sender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. User who send the message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference internal" href="viber.user.html#viber.User" title="viber.User"><code class="xref py py-obj docutils literal notranslate"><span class="pre">viber.User</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>event</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">viber.enums.EventType</span></code>) – The event’s unique identifier.</li>
+<li><strong>message_token</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Unique identifier of the event.</li>
+<li><strong>timestamp</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">datetime.datetime</span></code>, optional) – Time when message was created.</li>
+<li><strong>chat_hostname</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, optional) – Chat hostname</li>
+<li><strong>silent</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Is message silent.</li>
+<li><strong>user_id</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, optional) – User unique identifier.</li>
+<li><strong>desc</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Description for falture events.</li>
+<li><strong>user</strong> (<a class="reference internal" href="viber.user.html#viber.User" title="viber.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.User</span></code></a>, optional) – User instance for subscribed and conversation_started event.</li>
+<li><strong>type</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Type for conversation_started event.</li>
+<li><strong>context</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Context for conversation_started event.</li>
+<li><strong>subscribed</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Is user subscribed for conversation_started event.</li>
+<li><strong>message</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">viber.Message</span></code>, optional) – Message attached to event.</li>
+<li><strong>sender</strong> (<a class="reference internal" href="viber.user.html#viber.User" title="viber.User"><code class="xref py py-obj docutils literal notranslate"><span class="pre">viber.User</span></code></a>, optional) – User who send the message.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="classmethod">
+<dt id="viber.Event.from_dict">
+<em class="property">classmethod </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>data</em>, <em>bot</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Event.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="viber.location.html" class="btn btn-neutral" title="viber.Location" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Flowelcat
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

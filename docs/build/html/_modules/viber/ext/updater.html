@@ -1,0 +1,433 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viber.ext.updater &mdash; python-viber-bot  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> python-viber-bot
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../viber.html">viber package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">python-viber-bot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>viber.ext.updater</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for viber.ext.updater</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;This module contains the class Updater, which tries to make creating viber bots intuitive.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">ssl</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="k">import</span> <span class="n">Thread</span><span class="p">,</span> <span class="n">current_thread</span><span class="p">,</span> <span class="n">Lock</span><span class="p">,</span> <span class="n">Event</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">sleep</span>
+
+<span class="kn">from</span> <span class="nn">queue</span> <span class="k">import</span> <span class="n">Queue</span>
+
+<span class="kn">from</span> <span class="nn">viber.bot</span> <span class="k">import</span> <span class="n">Bot</span>
+<span class="kn">from</span> <span class="nn">viber.enums</span> <span class="k">import</span> <span class="n">EventType</span>
+<span class="kn">from</span> <span class="nn">viber.error</span> <span class="k">import</span> <span class="n">ViberError</span><span class="p">,</span> <span class="n">RetryAfter</span><span class="p">,</span> <span class="n">TimedOut</span><span class="p">,</span> <span class="n">InvalidToken</span>
+<span class="kn">from</span> <span class="nn">viber.ext.dispatcher</span> <span class="k">import</span> <span class="n">Dispatcher</span>
+<span class="kn">from</span> <span class="nn">viber.ext.jobqueue</span> <span class="k">import</span> <span class="n">JobQueue</span>
+<span class="kn">from</span> <span class="nn">viber.utils.helpers</span> <span class="k">import</span> <span class="n">get_enum</span>
+<span class="kn">from</span> <span class="nn">viber.utils.webhookhandler</span> <span class="k">import</span> <span class="n">WebhookServer</span><span class="p">,</span> <span class="n">WebhookHandler</span>
+
+
+<div class="viewcode-block" id="Updater"><a class="viewcode-back" href="../../../viber.ext.updater.html#viber.ext.Updater">[docs]</a><span class="k">class</span> <span class="nc">Updater</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class, which employs the :class:`viber.ext.Dispatcher`, provides a frontend to</span>
+<span class="sd">    :class:`viber.Bot` to the programmer, so they can focus on coding the bot. Its purpose is to</span>
+<span class="sd">    receive the updates from Viber and to deliver them to said dispatcher. It also runs in a</span>
+<span class="sd">    separate thread, so the user can interact with the bot, for example on the command line. The</span>
+<span class="sd">    dispatcher supports handlers for different kinds of data: Events from Viber, basic text</span>
+<span class="sd">    commands and even arbitrary types. The updater can be started as a webhook to receive events.</span>
+<span class="sd">    This is achieved using the WebhookServer and WebhookHandler classes.</span>
+
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        bot (:class:`viber.Bot`): The bot used with this Updater.</span>
+<span class="sd">        user_sig_handler (:obj:`signal`): signals the updater will respond to.</span>
+<span class="sd">        job_queue (:class:`viber.ext.JobQueue`): Jobqueue for the updater.</span>
+<span class="sd">        dispatcher (:class:`viber.ext.Dispatcher`): Dispatcher that handles the updates and dispatches them to the</span>
+<span class="sd">            handlers.</span>
+<span class="sd">        running (:obj:`bool`): Indicates if the updater is running.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        token (:obj:`str`, optional): The bot&#39;s token given by the @BotFather.</span>
+
+<span class="sd">        base_url (:obj:`str`, optional): Base_url for the bot.</span>
+<span class="sd">        workers (:obj:`int`, optional): Amount of threads in the thread pool for functions</span>
+<span class="sd">            decorated with ``@run_async``.</span>
+<span class="sd">        bot (:class:`viber.Bot`, optional): A pre-initialized bot instance. If a pre-initialized</span>
+<span class="sd">            bot is used, it is the user&#39;s responsibility to create it using a `Request`</span>
+<span class="sd">            instance with a large enough connection pool.</span>
+<span class="sd">        user_sig_handler (:obj:`function`, optional): Takes ``signum, frame`` as positional</span>
+<span class="sd">            arguments. This will be called when a signal is received, defaults are (SIGINT,</span>
+<span class="sd">            SIGTERM, SIGABRT) setable with :attr:`idle`.</span>
+<span class="sd">        request_kwargs (:obj:`dict`, optional): Keyword args to control the creation of a</span>
+<span class="sd">            `viber.utils.request.Request` object (ignored if `bot` argument is used). The</span>
+<span class="sd">            request_kwargs are very useful for the advanced users who would like to control the</span>
+<span class="sd">            default timeouts and/or control the proxy used for http communication.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        You must supply either a :attr:`bot` or a :attr:`token` and :attr:`name` and :attr:`avatar` arguments.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If both :attr:`bot` and :attr:`token` and :attr:`name` and :attr:`avatar` are passed or none of them.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">avatar</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">base_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                 <span class="n">bot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">user_sig_handler</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">request_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">bot</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">avatar</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`token, name, avatar` or `bot` must be passed&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bot</span> <span class="ow">and</span> <span class="p">(</span><span class="n">name</span> <span class="ow">or</span> <span class="n">avatar</span> <span class="ow">or</span> <span class="n">token</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`token, name, avatar` and `bot` are mutually exclusive&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">bot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">avatar</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bot</span> <span class="o">=</span> <span class="n">bot</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_sig_handler</span> <span class="o">=</span> <span class="n">user_sig_handler</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event_queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">job_queue</span> <span class="o">=</span> <span class="n">JobQueue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher</span> <span class="o">=</span> <span class="n">Dispatcher</span><span class="p">(</span><span class="n">event_queue</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">event_queue</span><span class="p">,</span>
+                                     <span class="n">bot</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="p">,</span>
+                                     <span class="n">job_queue</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">job_queue</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__exception_event</span> <span class="o">=</span> <span class="n">Event</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__lock</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__threads</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">_init_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">thr</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_thread_wrapper</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">target</span><span class="p">,)</span> <span class="o">+</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">thr</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__threads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_thread_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">thr_name</span> <span class="o">=</span> <span class="n">current_thread</span><span class="p">()</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> - started&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">thr_name</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">target</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__exception_event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;unhandled exception in </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">thr_name</span><span class="p">)</span>
+            <span class="k">raise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> - ended&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">thr_name</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Updater.start_webhook"><a class="viewcode-back" href="../../../viber.ext.updater.html#viber.ext.Updater.start_webhook">[docs]</a>    <span class="k">def</span> <span class="nf">start_webhook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                      <span class="n">listen</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span>
+                      <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+                      <span class="n">url_path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                      <span class="n">cert</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">webhook_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">event_types</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">checked_event_types</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">event_types</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event_types</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">event_types</span><span class="p">:</span>
+                    <span class="n">checked_event_types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_enum</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">EventType</span><span class="p">,</span> <span class="s1">&#39;event_type&#39;</span><span class="p">))</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">True</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">job_queue</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_init_thread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dispatcher</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="s2">&quot;dispatcher&quot;</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_init_thread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_start_webhook</span><span class="p">,</span> <span class="s2">&quot;updater&quot;</span><span class="p">,</span> <span class="n">listen</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">url_path</span><span class="p">)</span>
+
+                <span class="n">use_ssl</span> <span class="o">=</span> <span class="n">cert</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="n">use_ssl</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_check_ssl_cert</span><span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+                    <span class="c1"># DO NOT CHANGE: Only set webhook if SSL is handled by library</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">webhook_url</span><span class="p">:</span>
+                        <span class="n">webhook_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_webhook_url</span><span class="p">(</span><span class="n">listen</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">url_path</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">set_webhook</span><span class="p">(</span><span class="n">webhook_url</span><span class="o">=</span><span class="n">webhook_url</span><span class="p">,</span> <span class="n">certificate</span><span class="o">=</span><span class="n">cert</span><span class="p">,</span> <span class="n">event_types</span><span class="o">=</span><span class="n">checked_event_types</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Webhook binded to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">webhook_url</span><span class="p">))</span>
+
+                <span class="c1"># Return the update queue so the main thread can insert updates</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_queue</span></div>
+
+    <span class="k">def</span> <span class="nf">_start_webhook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listen</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">url_path</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Updater thread started (webhook)&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">url_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+            <span class="n">url_path</span> <span class="o">=</span> <span class="s1">&#39;/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url_path</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">httpd</span> <span class="o">=</span> <span class="n">WebhookServer</span><span class="p">((</span><span class="n">listen</span><span class="p">,</span> <span class="n">port</span><span class="p">),</span> <span class="n">WebhookHandler</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_queue</span><span class="p">,</span> <span class="n">url_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">httpd</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">(</span><span class="n">poll_interval</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_gen_webhook_url</span><span class="p">(</span><span class="n">listen</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">url_path</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;https://</span><span class="si">{listen}</span><span class="s1">:</span><span class="si">{port}{path}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">listen</span><span class="o">=</span><span class="n">listen</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">url_path</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_check_ssl_cert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="c1"># Check SSL-Certificate with openssl, if possible</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">exit_code</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;openssl&quot;</span><span class="p">,</span> <span class="s2">&quot;x509&quot;</span><span class="p">,</span> <span class="s2">&quot;-text&quot;</span><span class="p">,</span> <span class="s2">&quot;-noout&quot;</span><span class="p">,</span> <span class="s2">&quot;-in&quot;</span><span class="p">,</span> <span class="n">cert</span><span class="p">],</span>
+                <span class="n">stdout</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">),</span>
+                <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="n">exit_code</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">exit_code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">httpd</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">wrap_socket</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">httpd</span><span class="o">.</span><span class="n">socket</span><span class="p">,</span> <span class="n">certfile</span><span class="o">=</span><span class="n">cert</span><span class="p">,</span> <span class="n">keyfile</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">server_side</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">ssl</span><span class="o">.</span><span class="n">SSLError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Failed to init SSL socket&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ViberError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ViberError</span><span class="p">(</span><span class="s1">&#39;SSL Certificate invalid&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Updater.stop"><a class="viewcode-back" href="../../../viber.ext.updater.html#viber.ext.Updater.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Stops the webhook thread, the dispatcher and the job queue.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">job_queue</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher</span><span class="o">.</span><span class="n">has_running_threads</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Stopping Updater and Dispatcher...&#39;</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_stop_httpd</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_stop_dispatcher</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_join_threads</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_stop_httpd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">httpd</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Waiting for current webhook connection to be &#39;</span>
+                              <span class="s1">&#39;closed...&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">httpd</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">httpd</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_stop_dispatcher</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Requesting Dispatcher to stop...&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_join_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">thr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__threads</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Waiting for </span><span class="si">{0}</span><span class="s1"> thread to end&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">thr</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">thr</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> thread has ended&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">thr</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__threads</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">_network_loop_retry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_cb</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">interval</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Start network loop retry </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+        <span class="n">cur_interval</span> <span class="o">=</span> <span class="n">interval</span>
+
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">action_cb</span><span class="p">():</span>
+                    <span class="k">break</span>
+            <span class="k">except</span> <span class="n">RetryAfter</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="n">cur_interval</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="n">retry_after</span>
+            <span class="k">except</span> <span class="n">TimedOut</span> <span class="k">as</span> <span class="n">toe</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Timed out </span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">toe</span><span class="p">)</span>
+                <span class="c1"># If failure is due to timeout, we should retry asap.</span>
+                <span class="n">cur_interval</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">except</span> <span class="n">InvalidToken</span> <span class="k">as</span> <span class="n">pex</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Invalid token; aborting&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">pex</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cur_interval</span> <span class="o">=</span> <span class="n">interval</span>
+
+            <span class="k">if</span> <span class="n">cur_interval</span><span class="p">:</span>
+                <span class="n">sleep</span><span class="p">(</span><span class="n">cur_interval</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Flowelcat
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

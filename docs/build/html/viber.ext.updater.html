@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viber.ext.Updater &mdash; python-viber-bot  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="viber.ext.Dispatcher" href="viber.ext.dispatcher.html" />
+    <link rel="prev" title="viber.ext package" href="viber.ext.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python-viber-bot
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="viber.html">viber package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="viber.ext.html">viber.ext package</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">viber.ext.Updater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viber.ext.dispatcher.html">viber.ext.Dispatcher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viber.ext.html#handlers">Handlers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="viber.user.html">viber.User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">python-viber-bot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="viber.html">viber package</a> &raquo;</li>
+        
+          <li><a href="viber.ext.html">viber.ext package</a> &raquo;</li>
+        
+      <li>viber.ext.Updater</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/viber.ext.updater.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="viber-ext-updater">
+<h1>viber.ext.Updater<a class="headerlink" href="#viber-ext-updater" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="viber.ext.Updater">
+<em class="property">class </em><code class="descclassname">viber.ext.</code><code class="descname">Updater</code><span class="sig-paren">(</span><em>token=None</em>, <em>name=None</em>, <em>avatar=None</em>, <em>base_url=None</em>, <em>workers=4</em>, <em>bot=None</em>, <em>user_sig_handler=None</em>, <em>request_kwargs=None</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Updater" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class, which employs the <a class="reference internal" href="viber.ext.dispatcher.html#viber.ext.Dispatcher" title="viber.ext.Dispatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ext.Dispatcher</span></code></a>, provides a frontend to
+<a class="reference internal" href="viber.bot.html#viber.Bot" title="viber.Bot"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Bot</span></code></a> to the programmer, so they can focus on coding the bot. Its purpose is to
+receive the updates from Viber and to deliver them to said dispatcher. It also runs in a
+separate thread, so the user can interact with the bot, for example on the command line. The
+dispatcher supports handlers for different kinds of data: Events from Viber, basic text
+commands and even arbitrary types. The updater can be started as a webhook to receive events.
+This is achieved using the WebhookServer and WebhookHandler classes.</p>
+<dl class="attribute">
+<dt id="viber.ext.Updater.bot">
+<code class="descname">bot</code><a class="headerlink" href="#viber.ext.Updater.bot" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bot used with this Updater.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference internal" href="viber.bot.html#viber.Bot" title="viber.Bot"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Bot</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Updater.user_sig_handler">
+<code class="descname">user_sig_handler</code><a class="headerlink" href="#viber.ext.Updater.user_sig_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>signals the updater will respond to.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">signal</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Updater.event_queue">
+<code class="descname">event_queue</code><a class="headerlink" href="#viber.ext.Updater.event_queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queue for the events.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Queue</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Updater.job_queue">
+<code class="descname">job_queue</code><a class="headerlink" href="#viber.ext.Updater.job_queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Jobqueue for the updater.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ext.JobQueue</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Updater.dispatcher">
+<code class="descname">dispatcher</code><a class="headerlink" href="#viber.ext.Updater.dispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatcher that handles the updates and dispatches them to the
+handlers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference internal" href="viber.ext.dispatcher.html#viber.ext.Dispatcher" title="viber.ext.Dispatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ext.Dispatcher</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Updater.running">
+<code class="descname">running</code><a class="headerlink" href="#viber.ext.Updater.running" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates if the updater is running.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>token</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The bot’s token.</li>
+<li><strong>name</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The name of the bot.</li>
+<li><strong>avatar</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Avatar of the bot.</li>
+<li><strong>base_url</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Base_url for the bot.</li>
+<li><strong>workers</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Amount of threads in the thread pool for functions
+decorated with <code class="docutils literal notranslate"><span class="pre">&#64;run_async</span></code>.</li>
+<li><strong>bot</strong> (<a class="reference internal" href="viber.bot.html#viber.Bot" title="viber.Bot"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Bot</span></code></a>, optional) – A pre-initialized bot instance. If a pre-initialized
+bot is used, it is the user’s responsibility to create it using a <cite>Request</cite>
+instance with a large enough connection pool.</li>
+<li><strong>user_sig_handler</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">function</span></code>, optional) – Takes <code class="docutils literal notranslate"><span class="pre">signum,</span> <span class="pre">frame</span></code> as positional
+arguments. This will be called when a signal is received, defaults are (SIGINT,
+SIGTERM, SIGABRT) setable with <a class="reference internal" href="#viber.ext.Updater.idle" title="viber.ext.Updater.idle"><code class="xref py py-attr docutils literal notranslate"><span class="pre">idle</span></code></a>.</li>
+<li><strong>request_kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>, optional) – Keyword args to control the creation of a
+<cite>viber.utils.request.Request</cite> object (ignored if <cite>bot</cite> argument is used). The
+request_kwargs are very useful for the advanced users who would like to control the
+default timeouts and/or control the proxy used for http communication.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You must supply either a <a class="reference internal" href="#viber.ext.Updater.bot" title="viber.ext.Updater.bot"><code class="xref py py-attr docutils literal notranslate"><span class="pre">bot</span></code></a> or a <code class="xref py py-attr docutils literal notranslate"><span class="pre">token</span></code> arguments.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – If both <a class="reference internal" href="#viber.ext.Updater.bot" title="viber.ext.Updater.bot"><code class="xref py py-attr docutils literal notranslate"><span class="pre">bot</span></code></a> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">token</span></code> are passed or none of them.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="viber.ext.Updater.idle">
+<code class="descname">idle</code><span class="sig-paren">(</span><em>stop_signals=(2</em>, <em>15</em>, <em>6)</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Updater.idle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Blocks until one of the signals are received and stops the updater.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stop_signals</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">iterable</span></code>) – Iterable containing signals from the signal module that
+should be subscribed to. Updater.stop() will be called on receiving one of those
+signals. Defaults to (<code class="docutils literal notranslate"><span class="pre">SIGINT</span></code>, <code class="docutils literal notranslate"><span class="pre">SIGTERM</span></code>, <code class="docutils literal notranslate"><span class="pre">SIGABRT</span></code>).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.ext.Updater.start_webhook">
+<code class="descname">start_webhook</code><span class="sig-paren">(</span><em>listen='127.0.0.1'</em>, <em>port=80</em>, <em>url_path=''</em>, <em>cert=None</em>, <em>key=None</em>, <em>webhook_url=None</em>, <em>event_types=None</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Updater.start_webhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts a small http server to listen for events via webhook. If cert
+and key are not provided, the webhook will be started directly on
+<a class="reference external" href="http://listen:port/url_path">http://listen:port/url_path</a>, so SSL can be handled by another
+application. Else, the webhook will be started on
+<a class="reference external" href="https://listen:port/url_path">https://listen:port/url_path</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>listen</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – IP-Address to listen on. Default <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>.</li>
+<li><strong>port</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Port the bot should be listening on. Default <code class="docutils literal notranslate"><span class="pre">80</span></code>.</li>
+<li><strong>url_path</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Path inside url.</li>
+<li><strong>cert</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Path to the SSL certificate file.</li>
+<li><strong>key</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Path to the SSL key file.</li>
+<li><strong>webhook_url</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Explicitly specify the webhook url. Useful behind
+NAT, reverse proxy, etc. Default is derived from <cite>listen</cite>, <cite>port</cite> &amp; <cite>url_path</cite>.</li>
+<li><strong>event_types</strong> (List[<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>], optional) – Passed to <a class="reference internal" href="viber.bot.html#viber.Bot.set_webhook" title="viber.Bot.set_webhook"><code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.Bot.set_webhook</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The update queue that can be filled from the main thread.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Queue</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.ext.Updater.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Updater.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops the webhook thread, the dispatcher and the job queue.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="viber.ext.dispatcher.html" class="btn btn-neutral float-right" title="viber.ext.Dispatcher" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="viber.ext.html" class="btn btn-neutral" title="viber.ext package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Flowelcat
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

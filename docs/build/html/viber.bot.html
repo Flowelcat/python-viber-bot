@@ -1,0 +1,931 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viber.Bot &mdash; python-viber-bot  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="viber.User" href="viber.user.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python-viber-bot
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="viber.html">viber package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="viber.ext.html">viber.ext package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.user.html">viber.User</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">viber.Bot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">python-viber-bot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="viber.html">viber package</a> &raquo;</li>
+        
+      <li>viber.Bot</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/viber.bot.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="viber-bot">
+<h1>viber.Bot<a class="headerlink" href="#viber-bot" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="viber.Bot">
+<em class="property">class </em><code class="descclassname">viber.</code><code class="descname">Bot</code><span class="sig-paren">(</span><em>token</em>, <em>name=None</em>, <em>avatar=None</em>, <em>base_url=None</em>, <em>request=None</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">viber.base.ViberObject</span></code></p>
+<p>This object represents a Telegram Bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>token</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Bot’s unique authentication.</li>
+<li><strong>name</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Bot’s name.</li>
+<li><strong>avatar</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Bot’s avatar url.</li>
+<li><strong>base_url</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Viber Bot API service URL.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="viber.Bot.background">
+<code class="descname">background</code><a class="headerlink" href="#viber.Bot.background" title="Permalink to this definition">¶</a></dt>
+<dd><p>URL for background for this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.bot_name">
+<code class="descname">bot_name</code><a class="headerlink" href="#viber.Bot.bot_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name for this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.category">
+<code class="descname">category</code><a class="headerlink" href="#viber.Bot.category" title="Permalink to this definition">¶</a></dt>
+<dd><p>Category for this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.chat_hostname">
+<code class="descname">chat_hostname</code><a class="headerlink" href="#viber.Bot.chat_hostname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chat hostname for this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.country">
+<code class="descname">country</code><a class="headerlink" href="#viber.Bot.country" title="Permalink to this definition">¶</a></dt>
+<dd><p>Country code for this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.Bot.delete_webhook">
+<code class="descname">delete_webhook</code><span class="sig-paren">(</span><em>timeout=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot.delete_webhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this method to remove webhook integration. Requires no parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>timeout</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – If this value is specified, use it as
+the read timeout from the server (instead of the one specified during creation of
+the connection pool).</li>
+<li><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Arbitrary keyword arguments.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code> On success, <code class="docutils literal notranslate"><span class="pre">True</span></code> is returned.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.event_types">
+<code class="descname">event_types</code><a class="headerlink" href="#viber.Bot.event_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Event types for this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span> <span class="pre">of</span> <span class="pre">viber.enums.EventType</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.Bot.get_account_info">
+<code class="descname">get_account_info</code><span class="sig-paren">(</span><em>timeout=None</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot.get_account_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple method for testing your bot’s auth token. Requires no parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timeout</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – If this value is specified, use it as
+the read timeout from the server (instead of the one specified during creation of
+the connection pool).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dict of parameters representing that bot if the
+credentials are valid, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code> otherwise.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.icon">
+<code class="descname">icon</code><a class="headerlink" href="#viber.Bot.icon" title="Permalink to this definition">¶</a></dt>
+<dd><p>URL for icon for this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.id">
+<code class="descname">id</code><a class="headerlink" href="#viber.Bot.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unique identifier for this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.location">
+<code class="descname">location</code><a class="headerlink" href="#viber.Bot.location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Location for this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">viber.Location</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.members">
+<code class="descname">members</code><a class="headerlink" href="#viber.Bot.members" title="Permalink to this definition">¶</a></dt>
+<dd><p>Member of this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span> <span class="pre">of</span> <span class="pre">viber.User</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.request">
+<code class="descname">request</code><a class="headerlink" href="#viber.Bot.request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viber.Bot.send_carousel">
+<code class="descname">send_carousel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot.send_carousel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this method to send url messages.</p>
+<p>Message and Keyboard can contain placeholders if list of user_ids used.
+| <cite>replace_me_with_receiver_id</cite> - will be replaced by the receiver ID
+| <cite>replace_me_with_url_encoded_receiver_id</cite> - will be replaced by the URL encoded receiver ID
+| <cite>replace_me_with_user_name</cite> - will be replaced by the receiver user name</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Carousel Content Message is supported on devices running Viber version 6.7 and above.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Unique identifier for the target user.</li>
+<li><strong>rich_media</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Keyboard</span></code>) – Keyboard with type rich_media.</li>
+<li><strong>min_api_version</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Minimal api version.</li>
+<li><strong>tracking_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Allow the account to track messages and user’s replies.
+Sent tracking_data value will be passed back with user’s reply. Max 4000 characters. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_TRACKING_DATA_LENGTH</span></code>.</li>
+<li><strong>keyboard</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Keyboard</span></code>, optional) – Keyboard to be sent.</li>
+<li><strong>min_api_version</strong> – Minimal api version.</li>
+<li><strong>timeout</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – If this value is specified, use it as
+the read timeout from the server (instead of the one specified during creation of
+the connection pool).</li>
+<li><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Arbitrary keyword arguments.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">On success, the sent message is returned.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Message</span></code></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.Bot.send_contact">
+<code class="descname">send_contact</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot.send_contact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this method to send contact messages.</p>
+<p>Message and Keyboard can contain placeholders if list of user_ids used.
+| <cite>replace_me_with_receiver_id</cite> - will be replaced by the receiver ID
+| <cite>replace_me_with_url_encoded_receiver_id</cite> - will be replaced by the URL encoded receiver ID
+| <cite>replace_me_with_user_name</cite> - will be replaced by the receiver user name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Unique identifier for the target user.</li>
+<li><strong>contact</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Contact</span></code>) – Contact to be sent.</li>
+<li><strong>name</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Name of the contact if contact is None</li>
+<li><strong>phone_number</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – phone number of the contact if contact is None</li>
+<li><strong>tracking_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Allow the account to track messages and user’s replies.
+Sent tracking_data value will be passed back with user’s reply. Max 4000 characters. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_TRACKING_DATA_LENGTH</span></code>.</li>
+<li><strong>keyboard</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Keyboard</span></code>, optional) – Keyboard to be sent.</li>
+<li><strong>min_api_version</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Minimal api version.</li>
+<li><strong>timeout</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – If this value is specified, use it as
+the read timeout from the server (instead of the one specified during creation of
+the connection pool).</li>
+<li><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Arbitrary keyword arguments.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">On success, the sent message is returned.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Message</span></code></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.Bot.send_file">
+<code class="descname">send_file</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot.send_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this method to send file messages.</p>
+<p>Message and Keyboard can contain placeholders if list of user_ids used.
+| <cite>replace_me_with_receiver_id</cite> - will be replaced by the receiver ID
+| <cite>replace_me_with_url_encoded_receiver_id</cite> - will be replaced by the URL encoded receiver ID
+| <cite>replace_me_with_user_name</cite> - will be replaced by the receiver user name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Unique identifier for the target user.</li>
+<li><strong>media</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Url of the video(MP4, H264), max size is 50MB. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_FILE_SIZE</span></code>.</li>
+<li><strong>size</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – Size of the video in bytes.</li>
+<li><strong>file_name</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – File name should include extension.
+Sending a file without extension or with the wrong extension might cause the client to be unable to open the file.
+Max 256 characters (including file extension)
+Also found as <code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_FILE_NAME_LENGTH</span></code>.</li>
+<li><strong>tracking_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Allow the account to track messages and user’s replies.
+Sent tracking_data value will be passed back with user’s reply. Max 4000 characters. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_TRACKING_DATA_LENGTH</span></code>.</li>
+<li><strong>keyboard</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Keyboard</span></code>, optional) – Keyboard to be sent.</li>
+<li><strong>min_api_version</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Minimal api version.</li>
+<li><strong>timeout</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – If this value is specified, use it as
+the read timeout from the server (instead of the one specified during creation of
+the connection pool).</li>
+<li><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Arbitrary keyword arguments.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">On success, the sent message is returned.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Message</span></code></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.Bot.send_location">
+<code class="descname">send_location</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot.send_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this method to send location messages.</p>
+<p>Message and Keyboard can contain placeholders if list of user_ids used.
+| <cite>replace_me_with_receiver_id</cite> - will be replaced by the receiver ID
+| <cite>replace_me_with_url_encoded_receiver_id</cite> - will be replaced by the URL encoded receiver ID
+| <cite>replace_me_with_user_name</cite> - will be replaced by the receiver user name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Unique identifier for the target user.</li>
+<li><strong>location</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Location</span></code>) – Location to be sent.</li>
+<li><strong>lat</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Latitude of the location if location is None</li>
+<li><strong>lon</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Longitude of the location if location is None</li>
+<li><strong>tracking_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Allow the account to track messages and user’s replies.
+Sent tracking_data value will be passed back with user’s reply. Max 4000 characters. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_TRACKING_DATA_LENGTH</span></code>.</li>
+<li><strong>keyboard</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Keyboard</span></code>, optional) – Keyboard to be sent.</li>
+<li><strong>min_api_version</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Minimal api version.</li>
+<li><strong>timeout</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – If this value is specified, use it as
+the read timeout from the server (instead of the one specified during creation of
+the connection pool).</li>
+<li><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Arbitrary keyword arguments.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">On success, the sent message is returned.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Message</span></code></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.Bot.send_message">
+<code class="descname">send_message</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot.send_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this method to send text messages.
+Message and Keyboard can contain placeholders if list of user_ids used.
+| <cite>replace_me_with_receiver_id</cite> - will be replaced by the receiver ID
+| <cite>replace_me_with_url_encoded_receiver_id</cite> - will be replaced by the URL encoded receiver ID
+| <cite>replace_me_with_user_name</cite> - will be replaced by the receiver user name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, List[<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>]) – Unique identifier for the target user.</li>
+<li><strong>text</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Text of the messsage.</li>
+<li><strong>tracking_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Allow the account to track messages and user’s replies.
+Sent tracking_data value will be passed back with user’s reply. Max 4000 characters. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_TRACKING_DATA_LENGTH</span></code>.</li>
+<li><strong>keyboard</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Keyboard</span></code>, optional) – Keyboard to be sent.</li>
+<li><strong>min_api_version</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Minimal api version.</li>
+<li><strong>timeout</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – If this value is specified, use it as
+the read timeout from the server (instead of the one specified during creation of
+the connection pool).</li>
+<li><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Arbitrary keyword arguments.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">On success, the sent message is returned.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Message</span></code></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.Bot.send_picture">
+<code class="descname">send_picture</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot.send_picture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this method to send picture messages.</p>
+<p>Message and Keyboard can contain placeholders if
+list of user_ids used.
+| <cite>replace_me_with_receiver_id</cite> - will be replaced by the receiver ID
+| <cite>replace_me_with_url_encoded_receiver_id</cite> - will be replaced by the URL encoded receiver ID
+| <cite>replace_me_with_user_name</cite> - will be replaced by the receiver user name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Unique identifier for the target user.</li>
+<li><strong>media</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Url of the JPEG image, max size is 1MB. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_PICTURE_SIZE</span></code>.</li>
+<li><strong>description</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Description of the picture to be sent. Max 120 characters.
+Also found as <code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_PICTURE_DESCRIPTION_LENGTH</span></code>.</li>
+<li><strong>thumbnail</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Url of the thumbnail JPEG image, max size is 100KB. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_THUMBNAIL_SIZE</span></code>.</li>
+<li><strong>tracking_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Allow the account to track messages and user’s replies.
+Sent tracking_data value will be passed back with user’s reply. Max 4000 characters. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_TRACKING_DATA_LENGTH</span></code>.</li>
+<li><strong>keyboard</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Keyboard</span></code>, optional) – Keyboard to be sent.</li>
+<li><strong>min_api_version</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Minimal api version.</li>
+<li><strong>timeout</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – If this value is specified, use it as
+the read timeout from the server (instead of the one specified during creation of
+the connection pool).</li>
+<li><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Arbitrary keyword arguments.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">On success, the sent message is returned.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Message</span></code></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.Bot.send_sticker">
+<code class="descname">send_sticker</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot.send_sticker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this method to send sticker messages.</p>
+<p>Message and Keyboard can contain placeholders if list of user_ids used.
+| <cite>replace_me_with_receiver_id</cite> - will be replaced by the receiver ID
+| <cite>replace_me_with_url_encoded_receiver_id</cite> - will be replaced by the URL encoded receiver ID
+| <cite>replace_me_with_user_name</cite> - will be replaced by the receiver user name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Unique identifier for the target user.</li>
+<li><strong>sticker_id</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – Unique Viber sticker ID. For examples visit <a class="reference external" href="https://viber.github.io/docs/tools/sticker-ids/">https://viber.github.io/docs/tools/sticker-ids/</a> page.</li>
+<li><strong>tracking_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Allow the account to track messages and user’s replies.
+Sent tracking_data value will be passed back with user’s reply. Max 4000 characters. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_TRACKING_DATA_LENGTH</span></code>.</li>
+<li><strong>keyboard</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Keyboard</span></code>, optional) – Keyboard to be sent.</li>
+<li><strong>min_api_version</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Minimal api version.</li>
+<li><strong>timeout</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – If this value is specified, use it as
+the read timeout from the server (instead of the one specified during creation of
+the connection pool).</li>
+<li><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Arbitrary keyword arguments.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">On success, the sent message is returned.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Message</span></code></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.Bot.send_url">
+<code class="descname">send_url</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot.send_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this method to send url messages.</p>
+<p>Message and Keyboard can contain placeholders if list of user_ids used.
+| <cite>replace_me_with_receiver_id</cite> - will be replaced by the receiver ID
+| <cite>replace_me_with_url_encoded_receiver_id</cite> - will be replaced by the URL encoded receiver ID
+| <cite>replace_me_with_user_name</cite> - will be replaced by the receiver user name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Unique identifier for the target user.</li>
+<li><strong>url_address</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – URL to be sent. Max 2000 characters.  Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_URL_LENGTH</span></code>.</li>
+<li><strong>tracking_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Allow the account to track messages and user’s replies.
+Sent tracking_data value will be passed back with user’s reply. Max 4000 characters. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_TRACKING_DATA_LENGTH</span></code>.</li>
+<li><strong>keyboard</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Keyboard</span></code>, optional) – Keyboard to be sent.</li>
+<li><strong>min_api_version</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Minimal api version.</li>
+<li><strong>timeout</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – If this value is specified, use it as
+the read timeout from the server (instead of the one specified during creation of
+the connection pool).</li>
+<li><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Arbitrary keyword arguments.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">On success, the sent message is returned.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Message</span></code></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.Bot.send_video">
+<code class="descname">send_video</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot.send_video" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this method to send video messages.
+Message and Keyboard can contain placeholders if list of user_ids used.
+| <cite>replace_me_with_receiver_id</cite> - will be replaced by the receiver ID
+| <cite>replace_me_with_url_encoded_receiver_id</cite> - will be replaced by the URL encoded receiver ID
+| <cite>replace_me_with_user_name</cite> - will be replaced by the receiver user name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Unique identifier for the target user.</li>
+<li><strong>media</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Url of the video(MP4, H264), max size is 50MB. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_VIDEO_SIZE</span></code>.</li>
+<li><strong>size</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – Size of the video in bytes.</li>
+<li><strong>duration</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Video duration in seconds; will be displayed to the receiver, max 180 seconds.
+Also found as <code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_VIDEO_DURATION</span></code>.</li>
+<li><strong>thumbnail</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Url of the thumbnail JPEG image, max size is 100KB. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_THUMBNAIL_SIZE</span></code>.</li>
+<li><strong>tracking_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Allow the account to track messages and user’s replies.
+Sent tracking_data value will be passed back with user’s reply. Max 4000 characters. Also found as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.constants.MAX_TRACKING_DATA_LENGTH</span></code>.</li>
+<li><strong>keyboard</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Keyboard</span></code>, optional) – Keyboard to be sent.</li>
+<li><strong>min_api_version</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Minimal api version.</li>
+<li><strong>timeout</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – If this value is specified, use it as
+the read timeout from the server (instead of the one specified during creation of
+the connection pool).</li>
+<li><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Arbitrary keyword arguments.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">On success, the sent message is returned.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Message</span></code></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.Bot.set_webhook">
+<code class="descname">set_webhook</code><span class="sig-paren">(</span><em>url</em>, <em>event_types=None</em>, <em>send_name=True</em>, <em>send_photo=True</em>, <em>timeout=10</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.Bot.set_webhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this method to specify a url and receive incoming events via an outgoing webhook.
+Whenever there is an event for the bot, we will send an HTTPS POST request to the
+specified url, containing a JSON-serialized Event. In case of an unsuccessful request,
+we will give up after a reasonable amount of attempts.</p>
+<p>If you’d like to make sure that the Webhook request comes from Viber, we recommend
+using a secret path in the URL, e.g. <a class="reference external" href="https://www.example.com">https://www.example.com</a>/&lt;token&gt;. Since nobody else
+knows your bot’s token, you can be pretty sure it’s us.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The certificate argument should be a file from disk <code class="docutils literal notranslate"><span class="pre">open(filename,</span> <span class="pre">'rb')</span></code>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>url</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – HTTPS url to send updates to. Use an empty string to remove webhook
+integration.</li>
+<li><strong>event_types</strong> (List[<code class="xref py py-class docutils literal notranslate"><span class="pre">vbier.enums.EventType</span></code>], optional) – List the types of events you want your
+bot to receive. See <code class="xref py py-class docutils literal notranslate"><span class="pre">viber.enums.EventType</span></code> for a complete list of available event types. Specify an
+empty list to receive all updates regardless of type (default). If not specified,
+the previous setting will be used. Please note that this parameter doesn’t affect
+events created before the call to the set_webhook, so unwanted events may be
+received for a short period of time.</li>
+<li><strong>send_name</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Indicates whether or not the bot should receive the user name.</li>
+<li><strong>send_photo</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Indicates whether or not the bot should receive the user photo.</li>
+<li><strong>timeout</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – If this value is specified, use it as
+the read timeout from the server (instead of the one specified during creation of
+the connection pool).</li>
+<li><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Arbitrary keyword arguments.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple">
+<li>You will not be able to receive updates using get_events for as long as an outgoing
+webhook is set up.</li>
+<li>You can’t use self-signed certificate</li>
+</ol>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code> On success, <code class="docutils literal notranslate"><span class="pre">True</span></code> is returned.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.subcategory">
+<code class="descname">subcategory</code><a class="headerlink" href="#viber.Bot.subcategory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subcategory for this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.subscribers_count">
+<code class="descname">subscribers_count</code><a class="headerlink" href="#viber.Bot.subscribers_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of subscribers of this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.uri">
+<code class="descname">uri</code><a class="headerlink" href="#viber.Bot.uri" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uri for this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.Bot.webhook">
+<code class="descname">webhook</code><a class="headerlink" href="#viber.Bot.webhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Webhook url for this bot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="viber.user.html" class="btn btn-neutral" title="viber.User" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Flowelcat
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

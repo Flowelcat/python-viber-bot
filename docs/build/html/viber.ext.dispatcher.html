@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viber.ext.Dispatcher &mdash; python-viber-bot  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="viber.User" href="viber.user.html" />
+    <link rel="prev" title="viber.ext.Updater" href="viber.ext.updater.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python-viber-bot
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="viber.html">viber package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="viber.ext.html">viber.ext package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="viber.ext.updater.html">viber.ext.Updater</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">viber.ext.Dispatcher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viber.ext.html#handlers">Handlers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="viber.user.html">viber.User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">python-viber-bot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="viber.html">viber package</a> &raquo;</li>
+        
+          <li><a href="viber.ext.html">viber.ext package</a> &raquo;</li>
+        
+      <li>viber.ext.Dispatcher</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/viber.ext.dispatcher.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="viber-ext-dispatcher">
+<h1>viber.ext.Dispatcher<a class="headerlink" href="#viber-ext-dispatcher" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="viber.ext.Dispatcher">
+<em class="property">class </em><code class="descclassname">viber.ext.</code><code class="descname">Dispatcher</code><span class="sig-paren">(</span><em>bot</em>, <em>event_queue</em>, <em>workers=4</em>, <em>process_silent_events=False</em>, <em>exception_event=None</em>, <em>job_queue=None</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Dispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class dispatches all kinds of updates to its registered handlers.</p>
+<dl class="attribute">
+<dt id="viber.ext.Dispatcher.bot">
+<code class="descname">bot</code><a class="headerlink" href="#viber.ext.Dispatcher.bot" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bot object that should be passed to the handlers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Bot</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Dispatcher.event_queue">
+<code class="descname">event_queue</code><a class="headerlink" href="#viber.ext.Dispatcher.event_queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>The synchronized queue that will contain the events.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Queue</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Dispatcher.job_queue">
+<code class="descname">job_queue</code><a class="headerlink" href="#viber.ext.Dispatcher.job_queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional. The <code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ext.JobQueue</span></code>
+instance to pass onto handler callbacks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ext.JobQueue</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Dispatcher.workers">
+<code class="descname">workers</code><a class="headerlink" href="#viber.ext.Dispatcher.workers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of maximum concurrent worker threads for the <code class="docutils literal notranslate"><span class="pre">&#64;run_async</span></code>
+decorator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bot</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Bot</span></code>) – The bot object that should be passed to the handlers.</li>
+<li><strong>event_queue</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Queue</span></code>) – The synchronized queue that will contain the updates.</li>
+<li><strong>job_queue</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ext.JobQueue</span></code>, optional) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ext.JobQueue</span></code>
+instance to pass onto handler callbacks.</li>
+<li><strong>workers</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Number of maximum concurrent worker threads for the
+<code class="docutils literal notranslate"><span class="pre">&#64;run_async</span></code> decorator. defaults to 4.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="viber.ext.Dispatcher.add_error_handler">
+<code class="descname">add_error_handler</code><span class="sig-paren">(</span><em>callback</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Dispatcher.add_error_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers an error handler in the Dispatcher.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>callback</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">callable</span></code>) – A function that takes <code class="docutils literal notranslate"><span class="pre">Bot,</span> <span class="pre">Event,</span> <span class="pre">ViberError</span></code> as
+arguments.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.ext.Dispatcher.add_handler">
+<code class="descname">add_handler</code><span class="sig-paren">(</span><em>handler</em>, <em>group=0</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Dispatcher.add_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a handler.</p>
+<p>TL;DR: Order and priority counts. 0 or 1 handlers per group will be used.</p>
+<p>A handler must be an instance of a subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ext.Handler</span></code>. All handlers
+are organized in groups with a numeric value. The default group is 0. All groups will be
+evaluated for handling an event, but only 0 or 1 handler per group will be used. If
+<code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ext.DispatcherHandlerStop</span></code> is raised from one of the handlers, no further
+handlers (regardless of the group) will be called.</p>
+<p>The priority/order of handlers is determined as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Priority of the group (lower group number == higher priority)</li>
+<li>The first handler in a group which should handle an event (see
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">viber.ext.Handler.check_update</span></code>) will be used. Other handlers from the
+group will not be used. The order in which handlers were added to the group defines the
+priority.</li>
+</ul>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>handler</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ext.Handler</span></code>) – A Handler instance.</li>
+<li><strong>group</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – The group identifier. Default is 0.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.ext.Dispatcher.dispatch_error">
+<code class="descname">dispatch_error</code><span class="sig-paren">(</span><em>event</em>, <em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Dispatcher.dispatch_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatches an error.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>event</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Event</span></code> | None) – The event that caused the error</li>
+<li><strong>error</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code>) – The Viber error that was raised.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Dispatcher.error_handlers">
+<code class="descname">error_handlers</code><em class="property"> = None</em><a class="headerlink" href="#viber.ext.Dispatcher.error_handlers" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of errorHandlers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[<code class="xref py py-obj docutils literal notranslate"><span class="pre">callable</span></code>]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="viber.ext.Dispatcher.get_instance">
+<em class="property">classmethod </em><code class="descname">get_instance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Dispatcher.get_instance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the singleton instance of this class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#viber.ext.Dispatcher" title="viber.ext.Dispatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ext.Dispatcher</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Dispatcher.groups">
+<code class="descname">groups</code><em class="property"> = None</em><a class="headerlink" href="#viber.ext.Dispatcher.groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list with all groups.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Dispatcher.handlers">
+<code class="descname">handlers</code><em class="property"> = None</em><a class="headerlink" href="#viber.ext.Dispatcher.handlers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Holds the handlers per group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Dict[<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, List[<code class="xref py py-class docutils literal notranslate"><span class="pre">telegram.ext.Handler</span></code>]]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.ext.Dispatcher.process_event">
+<code class="descname">process_event</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Dispatcher.process_event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes a single event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">viber.Event</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ViberError</span></code>) – The event to process.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.ext.Dispatcher.remove_error_handler">
+<code class="descname">remove_error_handler</code><span class="sig-paren">(</span><em>callback</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Dispatcher.remove_error_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes an error handler.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>callback</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">callable</span></code>) – The error handler to remove.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.ext.Dispatcher.remove_handler">
+<code class="descname">remove_handler</code><span class="sig-paren">(</span><em>handler</em>, <em>group=0</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Dispatcher.remove_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a handler from the specified group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>handler</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">viber.ext.Handler</span></code>) – A Handler instance.</li>
+<li><strong>group</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code>, optional) – The group identifier. Default is 0.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.ext.Dispatcher.run_async">
+<code class="descname">run_async</code><span class="sig-paren">(</span><em>func</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Dispatcher.run_async" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queue a function (with given args/kwargs) to be run asynchronously.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>func</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">callable</span></code>) – The function to run in the thread.</li>
+<li><strong>*args</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>, optional) – Arguments to <cite>func</cite>.</li>
+<li><strong>**kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>, optional) – Keyword arguments to <cite>func</cite>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Promise</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Dispatcher.running">
+<code class="descname">running</code><em class="property"> = None</em><a class="headerlink" href="#viber.ext.Dispatcher.running" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates if this dispatcher is running.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.ext.Dispatcher.start">
+<code class="descname">start</code><span class="sig-paren">(</span><em>ready=None</em><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Dispatcher.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Thread target of thread ‘dispatcher’.</p>
+<p>Runs in background and processes the event queue.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ready</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">threading.Event</span></code>, optional) – If specified, the event will be set once the
+dispatcher is ready.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.ext.Dispatcher.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#viber.ext.Dispatcher.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops the thread.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.ext.Dispatcher.user_data">
+<code class="descname">user_data</code><em class="property"> = None</em><a class="headerlink" href="#viber.ext.Dispatcher.user_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary handlers can use to store data for the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="viber.user.html" class="btn btn-neutral float-right" title="viber.User" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="viber.ext.updater.html" class="btn btn-neutral" title="viber.ext.Updater" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Flowelcat
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

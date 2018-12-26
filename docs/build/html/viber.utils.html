@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viber.utils package &mdash; python-viber-bot  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="viber.User" href="viber.user.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python-viber-bot
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="viber.html">viber package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="viber.ext.html">viber.ext package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.user.html">viber.User</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">viber.utils package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-viber.utils.helpers">viber.utils.helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-viber.utils.promise">viber.utils.promise module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-viber.utils.request">viber.utils.request module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-viber.utils.webhookhandler">viber.utils.webhookhandler module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-viber.utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber.base">viber.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber.bot">viber.bot module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber.constants">viber.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber.enums">viber.enums module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber.error">viber.error module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber.event">viber.event module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber.keyboard">viber.keyboard module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber.keyboardbutton">viber.keyboardbutton module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber.message">viber.message module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#viber-test-module">viber.test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber.user">viber.user module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber.version">viber.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viber.html#module-viber">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">python-viber-bot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="viber.html">viber package</a> &raquo;</li>
+        
+      <li>viber.utils package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/viber.utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="viber-utils-package">
+<h1>viber.utils package<a class="headerlink" href="#viber-utils-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-viber.utils.helpers">
+<span id="viber-utils-helpers-module"></span><h2>viber.utils.helpers module<a class="headerlink" href="#module-viber.utils.helpers" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="viber.utils.helpers.from_timestamp">
+<code class="descclassname">viber.utils.helpers.</code><code class="descname">from_timestamp</code><span class="sig-paren">(</span><em>unixtime</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/helpers.html#from_timestamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.helpers.from_timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Args:</dt>
+<dd>unixtime (int):</dd>
+<dt>Returns:</dt>
+<dd>datetime.datetime:</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="viber.utils.helpers.get_enum">
+<code class="descclassname">viber.utils.helpers.</code><code class="descname">get_enum</code><span class="sig-paren">(</span><em>value</em>, <em>enum_class</em>, <em>var_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/helpers.html#get_enum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.helpers.get_enum" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viber.utils.helpers.get_hex">
+<code class="descclassname">viber.utils.helpers.</code><code class="descname">get_hex</code><span class="sig-paren">(</span><em>value</em>, <em>var_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/helpers.html#get_hex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.helpers.get_hex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viber.utils.helpers.to_timestamp">
+<code class="descclassname">viber.utils.helpers.</code><code class="descname">to_timestamp</code><span class="sig-paren">(</span><em>dt_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/helpers.html#to_timestamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.helpers.to_timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Args:</dt>
+<dd>dt_obj (<code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.datetime</span></code>):</dd>
+<dt>Returns:</dt>
+<dd>int:</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-viber.utils.promise">
+<span id="viber-utils-promise-module"></span><h2>viber.utils.promise module<a class="headerlink" href="#module-viber.utils.promise" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="viber.utils.promise.Promise">
+<em class="property">class </em><code class="descclassname">viber.utils.promise.</code><code class="descname">Promise</code><span class="sig-paren">(</span><em>pooled_function</em>, <em>args</em>, <em>kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/promise.html#Promise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.promise.Promise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="viber.utils.promise.Promise.exception">
+<code class="descname">exception</code><a class="headerlink" href="#viber.utils.promise.Promise.exception" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viber.utils.promise.Promise.result">
+<code class="descname">result</code><span class="sig-paren">(</span><em>timeout=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/promise.html#Promise.result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.promise.Promise.result" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viber.utils.promise.Promise.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/promise.html#Promise.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.promise.Promise.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-viber.utils.request">
+<span id="viber-utils-request-module"></span><h2>viber.utils.request module<a class="headerlink" href="#module-viber.utils.request" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="viber.utils.request.Request">
+<em class="property">class </em><code class="descclassname">viber.utils.request.</code><code class="descname">Request</code><span class="sig-paren">(</span><em>token</em>, <em>con_pool_size=1</em>, <em>connect_timeout=5.0</em>, <em>read_timeout=5.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/request.html#Request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.request.Request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="viber.utils.request.Request.con_pool_size">
+<code class="descname">con_pool_size</code><a class="headerlink" href="#viber.utils.request.Request.con_pool_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The size of the connection pool used.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.utils.request.Request.post">
+<code class="descname">post</code><span class="sig-paren">(</span><em>url</em>, <em>data</em>, <em>timeout=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/request.html#Request.post"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.request.Request.post" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viber.utils.request.Request.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/request.html#Request.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.request.Request.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-viber.utils.webhookhandler">
+<span id="viber-utils-webhookhandler-module"></span><h2>viber.utils.webhookhandler module<a class="headerlink" href="#module-viber.utils.webhookhandler" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="viber.utils.webhookhandler.WebhookHandler">
+<em class="property">class </em><code class="descclassname">viber.utils.webhookhandler.</code><code class="descname">WebhookHandler</code><span class="sig-paren">(</span><em>request</em>, <em>client_address</em>, <em>server</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/webhookhandler.html#WebhookHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.webhookhandler.WebhookHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHTTPServer.BaseHTTPRequestHandler</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="viber.utils.webhookhandler.WebhookHandler.do_GET">
+<code class="descname">do_GET</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/webhookhandler.html#WebhookHandler.do_GET"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.webhookhandler.WebhookHandler.do_GET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viber.utils.webhookhandler.WebhookHandler.do_HEAD">
+<code class="descname">do_HEAD</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/webhookhandler.html#WebhookHandler.do_HEAD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.webhookhandler.WebhookHandler.do_HEAD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viber.utils.webhookhandler.WebhookHandler.do_POST">
+<code class="descname">do_POST</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/webhookhandler.html#WebhookHandler.do_POST"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.webhookhandler.WebhookHandler.do_POST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viber.utils.webhookhandler.WebhookHandler.log_message">
+<code class="descname">log_message</code><span class="sig-paren">(</span><em>format</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/webhookhandler.html#WebhookHandler.log_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.webhookhandler.WebhookHandler.log_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log an arbitrary message.</p>
+<p>This is used by all other logging functions.</p>
+<p>It overrides <code class="docutils literal notranslate"><span class="pre">BaseHTTPRequestHandler.log_message</span></code>, which logs to <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code>.</p>
+<p>The first argument, FORMAT, is a format string for the message to be logged.  If the format
+string contains any % escapes requiring parameters, they should be specified as subsequent
+arguments (it’s just like printf!).</p>
+<p>The client ip is prefixed to every message.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viber.utils.webhookhandler.WebhookHandler.server_version">
+<code class="descname">server_version</code><em class="property"> = 'WebhookHandler/1.0'</em><a class="headerlink" href="#viber.utils.webhookhandler.WebhookHandler.server_version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viber.utils.webhookhandler.WebhookHandler.verify_signature">
+<code class="descname">verify_signature</code><span class="sig-paren">(</span><em>request_data</em>, <em>signature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/webhookhandler.html#WebhookHandler.verify_signature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.webhookhandler.WebhookHandler.verify_signature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viber.utils.webhookhandler.WebhookServer">
+<em class="property">class </em><code class="descclassname">viber.utils.webhookhandler.</code><code class="descname">WebhookServer</code><span class="sig-paren">(</span><em>server_address</em>, <em>RequestHandlerClass</em>, <em>event_queue</em>, <em>webhook_path</em>, <em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/webhookhandler.html#WebhookServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.webhookhandler.WebhookServer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHTTPServer.HTTPServer</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="viber.utils.webhookhandler.WebhookServer.handle_error">
+<code class="descname">handle_error</code><span class="sig-paren">(</span><em>request</em>, <em>client_address</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/webhookhandler.html#WebhookServer.handle_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.webhookhandler.WebhookServer.handle_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle an error gracefully.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.utils.webhookhandler.WebhookServer.serve_forever">
+<code class="descname">serve_forever</code><span class="sig-paren">(</span><em>poll_interval=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/webhookhandler.html#WebhookServer.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.webhookhandler.WebhookServer.serve_forever" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle one request at a time until shutdown.</p>
+<p>Polls for shutdown every poll_interval seconds. Ignores
+self.timeout. If you need to do periodic tasks, do them in
+another thread.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viber.utils.webhookhandler.WebhookServer.shutdown">
+<code class="descname">shutdown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/viber/utils/webhookhandler.html#WebhookServer.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viber.utils.webhookhandler.WebhookServer.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops the serve_forever loop.</p>
+<p>Blocks until the loop has finished. This must be called while
+serve_forever() is running in another thread, or it will
+deadlock.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-viber.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-viber.utils" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="viber.user.html" class="btn btn-neutral" title="viber.User" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Flowelcat
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

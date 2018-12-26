@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viber.ext.filters &mdash; python-viber-bot  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> python-viber-bot
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../viber.html">viber package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">python-viber-bot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>viber.ext.filters</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for viber.ext.filters</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">viber.message</span> <span class="k">import</span> <span class="n">MessageType</span>
+
+
+<div class="viewcode-block" id="BaseFilter"><a class="viewcode-back" href="../../../viber.ext.html#viber.ext.filters.BaseFilter">[docs]</a><span class="k">class</span> <span class="nc">BaseFilter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__and__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">MergedFilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">and_filter</span><span class="o">=</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">MergedFilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">or_filter</span><span class="o">=</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">InvertedFilter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># We do this here instead of in a __init__ so filter don&#39;t have to call __init__ or super()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<div class="viewcode-block" id="BaseFilter.filter"><a class="viewcode-back" href="../../../viber.ext.html#viber.ext.filters.BaseFilter.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+
+
+<div class="viewcode-block" id="InvertedFilter"><a class="viewcode-back" href="../../../viber.ext.html#viber.ext.filters.InvertedFilter">[docs]</a><span class="k">class</span> <span class="nc">InvertedFilter</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+
+<div class="viewcode-block" id="InvertedFilter.filter"><a class="viewcode-back" href="../../../viber.ext.html#viber.ext.filters.InvertedFilter.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;inverted </span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MergedFilter"><a class="viewcode-back" href="../../../viber.ext.html#viber.ext.filters.MergedFilter">[docs]</a><span class="k">class</span> <span class="nc">MergedFilter</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_filter</span><span class="p">,</span> <span class="n">and_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">or_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_filter</span> <span class="o">=</span> <span class="n">base_filter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">and_filter</span> <span class="o">=</span> <span class="n">and_filter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">or_filter</span> <span class="o">=</span> <span class="n">or_filter</span>
+
+<div class="viewcode-block" id="MergedFilter.filter"><a class="viewcode-back" href="../../../viber.ext.html#viber.ext.filters.MergedFilter.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">and_filter</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_filter</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_filter</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_filter</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_filter</span><span class="p">,</span> <span class="s2">&quot;and&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">and_filter</span> <span class="k">else</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">and_filter</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_filter</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Filters"><a class="viewcode-back" href="../../../viber.ext.html#viber.ext.filters.Filters">[docs]</a><span class="k">class</span> <span class="nc">Filters</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">class</span> <span class="nc">_All</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Filters.all&#39;</span>
+
+        <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nb">all</span> <span class="o">=</span> <span class="n">_All</span><span class="p">()</span>
+    <span class="sd">&quot;&quot;&quot;:obj:`Filter`: All Messages.&quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">_Text</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Filters.text&#39;</span>
+
+        <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">))</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="n">_Text</span><span class="p">()</span>
+    <span class="sd">&quot;&quot;&quot;:obj:`Filter`: Text Messages.&quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">_Command</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Filters.command&#39;</span>
+
+        <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span> <span class="ow">and</span> <span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">))</span>
+
+    <span class="n">command</span> <span class="o">=</span> <span class="n">_Command</span><span class="p">()</span>
+    <span class="sd">&quot;&quot;&quot;:obj:`Filter`: Messages starting with ``/``.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Filters.regex"><a class="viewcode-back" href="../../../viber.ext.html#viber.ext.filters.Filters.regex">[docs]</a>    <span class="k">class</span> <span class="nc">regex</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Filters.regex(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">)</span>
+
+        <span class="c1"># TODO: Once the callback revamp (#1026) is done, the regex filter should be able to pass</span>
+        <span class="c1"># the matched groups and groupdict to the context object.</span>
+
+<div class="viewcode-block" id="Filters.regex.filter"><a class="viewcode-back" href="../../../viber.ext.html#viber.ext.filters.Filters.regex.filter">[docs]</a>        <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span></div></div>
+
+    <span class="k">class</span> <span class="nc">_File</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Filters.file&#39;</span>
+
+        <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">file</span>
+
+    <span class="n">file</span> <span class="o">=</span> <span class="n">_File</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">_Picture</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Filters.picture&#39;</span>
+
+        <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">picture</span>
+
+    <span class="n">picture</span> <span class="o">=</span> <span class="n">_Picture</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">_Sticker</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Filters.sticker&#39;</span>
+
+        <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">sticker</span>
+
+    <span class="n">sticker</span> <span class="o">=</span> <span class="n">_Sticker</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">_Video</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Filters.video&#39;</span>
+
+        <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">video</span>
+
+    <span class="n">video</span> <span class="o">=</span> <span class="n">_Video</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">_Contact</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Filters.contact&#39;</span>
+
+        <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">contact</span>
+
+    <span class="n">contact</span> <span class="o">=</span> <span class="n">_Contact</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">_Location</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Filters.location&#39;</span>
+
+        <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">location</span>
+
+    <span class="n">location</span> <span class="o">=</span> <span class="n">_Location</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">_Url</span><span class="p">(</span><span class="n">BaseFilter</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Filters.url&#39;</span>
+
+        <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">url</span>
+
+    <span class="n">ulr</span> <span class="o">=</span> <span class="n">_Url</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Flowelcat
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

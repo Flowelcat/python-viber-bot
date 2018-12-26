@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viber.bot &mdash; python-viber-bot  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> python-viber-bot
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../viber.html">viber package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">python-viber-bot</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>viber.bot</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for viber.bot</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+
+<span class="kn">from</span> <span class="nn">viber.base</span> <span class="k">import</span> <span class="n">ViberObject</span>
+<span class="kn">from</span> <span class="nn">viber.enums</span> <span class="k">import</span> <span class="n">MessageType</span>
+<span class="kn">from</span> <span class="nn">viber.error</span> <span class="k">import</span> <span class="n">InvalidToken</span>
+<span class="kn">from</span> <span class="nn">viber.utils.request</span> <span class="k">import</span> <span class="n">Request</span>
+<span class="kn">from</span> <span class="nn">viber.message</span> <span class="k">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">Contact</span><span class="p">,</span> <span class="n">Location</span>
+
+
+<div class="viewcode-block" id="message"><a class="viewcode-back" href="../../viber.html#viber.bot.message">[docs]</a><span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">url</span><span class="p">,</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;timeout&#39;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="n">mes</span> <span class="o">=</span> <span class="n">Message</span><span class="p">(</span><span class="n">payload</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">mes</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">mes</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">mes</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+<div class="viewcode-block" id="Bot"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot">[docs]</a><span class="k">class</span> <span class="nc">Bot</span><span class="p">(</span><span class="n">ViberObject</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">avatar</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avatar</span> <span class="o">=</span> <span class="n">avatar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">base_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://chatapi.viber.com/pa&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_request</span> <span class="o">=</span> <span class="n">request</span> <span class="ow">or</span> <span class="n">Request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_validate_token</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A very basic validation on token.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidToken</span><span class="p">()</span>
+
+        <span class="n">token_parts</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token_parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidToken</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">left</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">token_parts</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">16</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">center</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">16</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">16</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvalidToken</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">token</span>
+
+<div class="viewcode-block" id="Bot.get_account_info"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot.get_account_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_account_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">/get_account_info&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="p">{},</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="Bot.set_webhook"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot.set_webhook">[docs]</a>    <span class="k">def</span> <span class="nf">set_webhook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">webhook_url</span><span class="p">,</span> <span class="n">certificate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">event_types</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">send_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">send_photo</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">event_types</span><span class="p">:</span>
+            <span class="n">event_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;delivered&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;seen&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;failed&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;subscribed&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;unsubscribed&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;conversation_started&quot;</span><span class="p">]</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">/set_webhook&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">webhook_url</span><span class="p">,</span>
+                   <span class="s1">&#39;event_types&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">et</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">et</span> <span class="ow">in</span> <span class="n">event_types</span><span class="p">],</span>
+                   <span class="n">send_name</span><span class="p">:</span> <span class="n">send_name</span><span class="p">,</span>
+                   <span class="n">send_photo</span><span class="p">:</span> <span class="n">send_photo</span><span class="p">}</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="Bot.delete_webhook"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot.delete_webhook">[docs]</a>    <span class="k">def</span> <span class="nf">delete_webhook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">/set_webhook&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">}</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="Bot.send_message"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot.send_message">[docs]</a>    <span class="nd">@message</span>
+    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">tracking_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keyboard</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use this method to send text messages.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (:obj:`str`): Unique identifier for the target user.</span>
+<span class="sd">            text (:obj:`str`, optional): Text of the messsage.</span>
+<span class="sd">            tracking_data (:obj:`str`, optional): Allow the account to track messages and user&#39;s replies.</span>
+<span class="sd">                Sent tracking_data value will be passed back with user&#39;s reply. Max 4000 characters. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_TRACKING_DATA_LENGTH`.</span>
+<span class="sd">            keyboard (:obj:`Keyboard`, optional): Keyboard to be sent.</span>
+<span class="sd">            timeout (:obj:`int` | :obj:`float`, optional): If this value is specified, use it as</span>
+<span class="sd">                the read timeout from the server (instead of the one specified during creation of</span>
+<span class="sd">                the connection pool).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :class:`viber.Message`: On success, the sent message is returned.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            :class:`viber.ViberError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">/send_message&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;receiver&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+            <span class="s2">&quot;min_api_version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;avatar&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">avatar</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">tracking_data</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;tracking_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracking_data</span>
+        <span class="k">if</span> <span class="n">keyboard</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;keyboard&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keyboard</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">payload</span></div>
+
+<div class="viewcode-block" id="Bot.send_picture"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot.send_picture">[docs]</a>    <span class="nd">@message</span>
+    <span class="k">def</span> <span class="nf">send_picture</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">media</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">thumbnail</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tracking_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keyboard</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use this method to send picture messages.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (:obj:`str`): Unique identifier for the target user.</span>
+<span class="sd">            media (:obj:`str`): Url of the JPEG image, max size is 1MB. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_PICTURE_SIZE`.</span>
+<span class="sd">            description (:obj:`str`, optional): Description of the picture to be sent. Max 120 characters.</span>
+<span class="sd">                Also found as :attr:`viber.constants.MAX_PICTURE_DESCRIPTION_LENGTH`.</span>
+<span class="sd">            thumbnail (:obj:`str`, optional): Url of the thumbnail JPEG image, max size is 100KB. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_THUMBNAIL_SIZE`.</span>
+<span class="sd">            tracking_data (:obj:`str`, optional): Allow the account to track messages and user&#39;s replies.</span>
+<span class="sd">                Sent tracking_data value will be passed back with user&#39;s reply. Max 4000 characters. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_TRACKING_DATA_LENGTH`.</span>
+
+<span class="sd">            keyboard (:obj:`Keyboard`, optional): Keyboard to be sent.</span>
+<span class="sd">            timeout (:obj:`int` | :obj:`float`, optional): If this value is specified, use it as</span>
+<span class="sd">                the read timeout from the server (instead of the one specified during creation of</span>
+<span class="sd">                the connection pool).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :class:`viber.Message`: On success, the sent message is returned.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            :class:`viber.ViberError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">/send_message&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;receiver&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+            <span class="s2">&quot;min_api_version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;avatar&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">avatar</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">picture</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;media&quot;</span><span class="p">:</span> <span class="n">media</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">thumbnail</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;thumbnail&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">thumbnail</span>
+        <span class="k">if</span> <span class="n">description</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">description</span>
+
+        <span class="k">if</span> <span class="n">tracking_data</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;tracking_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracking_data</span>
+        <span class="k">if</span> <span class="n">keyboard</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;keyboard&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keyboard</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">payload</span></div>
+
+<div class="viewcode-block" id="Bot.send_video"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot.send_video">[docs]</a>    <span class="nd">@message</span>
+    <span class="k">def</span> <span class="nf">send_video</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">media</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">thumbnail</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tracking_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keyboard</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use this method to send video messages.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (:obj:`str`): Unique identifier for the target user.</span>
+<span class="sd">            media (:obj:`str`): Url of the video(MP4, H264), max size is 50MB. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_VIDEO_SIZE`.</span>
+<span class="sd">            size (:obj:`int`): Size of the video in bytes.</span>
+<span class="sd">            duration (:obj:`int`, optional): Video duration in seconds; will be displayed to the receiver, max 180 seconds.</span>
+<span class="sd">                Also found as :attr:`viber.constants.MAX_VIDEO_DURATION`.</span>
+<span class="sd">            thumbnail (:obj:`str`, optional): Url of the thumbnail JPEG image, max size is 100KB. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_THUMBNAIL_SIZE`.</span>
+
+<span class="sd">            tracking_data (:obj:`str`, optional): Allow the account to track messages and user&#39;s replies.</span>
+<span class="sd">                Sent tracking_data value will be passed back with user&#39;s reply. Max 4000 characters. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_TRACKING_DATA_LENGTH`.</span>
+<span class="sd">            keyboard (:obj:`Keyboard`, optional): Keyboard to be sent.</span>
+<span class="sd">            timeout (:obj:`int` | :obj:`float`, optional): If this value is specified, use it as</span>
+<span class="sd">                the read timeout from the server (instead of the one specified during creation of</span>
+<span class="sd">                the connection pool).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :class:`viber.Message`: On success, the sent message is returned.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            :class:`viber.ViberError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">/send_message&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;receiver&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+            <span class="s2">&quot;min_api_version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;avatar&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">avatar</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">video</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;media&quot;</span><span class="p">:</span> <span class="n">media</span><span class="p">,</span>
+            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">thumbnail</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;thumbnail&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">thumbnail</span>
+        <span class="k">if</span> <span class="n">duration</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">duration</span>
+
+        <span class="k">if</span> <span class="n">tracking_data</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;tracking_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracking_data</span>
+        <span class="k">if</span> <span class="n">keyboard</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;keyboard&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keyboard</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">payload</span></div>
+
+<div class="viewcode-block" id="Bot.send_file"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot.send_file">[docs]</a>    <span class="nd">@message</span>
+    <span class="k">def</span> <span class="nf">send_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">media</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">tracking_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keyboard</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use this method to send file messages.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (:obj:`str`): Unique identifier for the target user.</span>
+<span class="sd">            media (:obj:`str`): Url of the video(MP4, H264), max size is 50MB. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_FILE_SIZE`.</span>
+<span class="sd">            size (:obj:`int`): Size of the video in bytes.</span>
+<span class="sd">            file_name (:obj:`str`):  File name should include extension.</span>
+<span class="sd">                Sending a file without extension or with the wrong extension might cause the client to be unable to open the file.</span>
+<span class="sd">                Max 256 characters (including file extension)</span>
+<span class="sd">                Also found as :attr:`viber.constants.MAX_FILE_NAME_LENGTH`.</span>
+
+<span class="sd">            tracking_data (:obj:`str`, optional): Allow the account to track messages and user&#39;s replies.</span>
+<span class="sd">                Sent tracking_data value will be passed back with user&#39;s reply. Max 4000 characters. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_TRACKING_DATA_LENGTH`.</span>
+<span class="sd">            keyboard (:obj:`Keyboard`, optional): Keyboard to be sent.</span>
+<span class="sd">            timeout (:obj:`int` | :obj:`float`, optional): If this value is specified, use it as</span>
+<span class="sd">                the read timeout from the server (instead of the one specified during creation of</span>
+<span class="sd">                the connection pool).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :class:`viber.Message`: On success, the sent message is returned.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            :class:`viber.ViberError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">/send_message&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;receiver&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+            <span class="s2">&quot;min_api_version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;avatar&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">avatar</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;media&quot;</span><span class="p">:</span> <span class="n">media</span><span class="p">,</span>
+            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span>
+            <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="n">file_name</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">tracking_data</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;tracking_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracking_data</span>
+        <span class="k">if</span> <span class="n">keyboard</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;keyboard&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keyboard</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">payload</span></div>
+
+<div class="viewcode-block" id="Bot.send_contact"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot.send_contact">[docs]</a>    <span class="nd">@message</span>
+    <span class="k">def</span> <span class="nf">send_contact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">contact</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phone_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tracking_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keyboard</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use this method to send contact messages.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (:obj:`str`): Unique identifier for the target user.</span>
+<span class="sd">            contact (:obj:`Contact`): Contact to be sent.</span>
+<span class="sd">            name (:obj:`str`): Name of the contact if contact is None</span>
+<span class="sd">            phone_number (:obj:`str`): phone number of the contact if contact is None</span>
+<span class="sd">            tracking_data (:obj:`str`, optional): Allow the account to track messages and user&#39;s replies.</span>
+<span class="sd">                Sent tracking_data value will be passed back with user&#39;s reply. Max 4000 characters. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_TRACKING_DATA_LENGTH`.</span>
+<span class="sd">            keyboard (:obj:`Keyboard`, optional): Keyboard to be sent.</span>
+<span class="sd">            timeout (:obj:`int` | :obj:`float`, optional): If this value is specified, use it as</span>
+<span class="sd">                the read timeout from the server (instead of the one specified during creation of</span>
+<span class="sd">                the connection pool).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :class:`viber.Message`: On success, the sent message is returned.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            :class:`viber.ViberError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">contact</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">phone_number</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Must be contact or name with phone_number&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">contact</span> <span class="ow">and</span> <span class="p">(</span><span class="n">name</span> <span class="ow">or</span> <span class="n">phone_number</span><span class="p">):</span>
+            <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Contact and name with phone_number are mutually exclusive&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">contact</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">phone_number</span><span class="p">:</span>
+            <span class="n">contact</span> <span class="o">=</span> <span class="n">Contact</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">/send_message&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;receiver&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+            <span class="s2">&quot;min_api_version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;avatar&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">avatar</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">contact</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;contact&quot;</span><span class="p">:</span> <span class="n">contact</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">tracking_data</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;tracking_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracking_data</span>
+        <span class="k">if</span> <span class="n">keyboard</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;keyboard&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keyboard</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">payload</span></div>
+
+<div class="viewcode-block" id="Bot.send_location"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot.send_location">[docs]</a>    <span class="nd">@message</span>
+    <span class="k">def</span> <span class="nf">send_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tracking_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keyboard</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use this method to send location messages.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (:obj:`str`): Unique identifier for the target user.</span>
+<span class="sd">            location (:obj:`Location`): Location to be sent.</span>
+<span class="sd">            lat (:obj:`str`): Latitude of the location if location is None</span>
+<span class="sd">            lon (:obj:`str`): Longitude of the location if location is None</span>
+
+<span class="sd">            tracking_data (:obj:`str`, optional): Allow the account to track messages and user&#39;s replies.</span>
+<span class="sd">                Sent tracking_data value will be passed back with user&#39;s reply. Max 4000 characters. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_TRACKING_DATA_LENGTH`.</span>
+<span class="sd">            keyboard (:obj:`Keyboard`, optional): Keyboard to be sent.</span>
+<span class="sd">            timeout (:obj:`int` | :obj:`float`, optional): If this value is specified, use it as</span>
+<span class="sd">                the read timeout from the server (instead of the one specified during creation of</span>
+<span class="sd">                the connection pool).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :class:`viber.Message`: On success, the sent message is returned.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            :class:`viber.ViberError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">lat</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">lon</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Must be location or lat with lon&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">location</span> <span class="ow">and</span> <span class="p">(</span><span class="n">lat</span> <span class="ow">or</span> <span class="n">lon</span><span class="p">):</span>
+            <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Location and lat with lon are mutually exclusive&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">lat</span> <span class="ow">and</span> <span class="n">lon</span><span class="p">:</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="n">Location</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">)</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">/send_message&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;receiver&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+            <span class="s2">&quot;min_api_version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;avatar&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">avatar</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="n">location</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">tracking_data</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;tracking_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracking_data</span>
+        <span class="k">if</span> <span class="n">keyboard</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;keyboard&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keyboard</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">payload</span></div>
+
+<div class="viewcode-block" id="Bot.send_url"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot.send_url">[docs]</a>    <span class="nd">@message</span>
+    <span class="k">def</span> <span class="nf">send_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">url_address</span><span class="p">,</span> <span class="n">tracking_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keyboard</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use this method to send url messages.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (:obj:`str`): Unique identifier for the target user.</span>
+<span class="sd">            url (:obj:`str`): URL to be sent. Max 2000 characters.  Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_URL_LENGTH`.</span>
+
+<span class="sd">            tracking_data (:obj:`str`, optional): Allow the account to track messages and user&#39;s replies.</span>
+<span class="sd">                Sent tracking_data value will be passed back with user&#39;s reply. Max 4000 characters. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_TRACKING_DATA_LENGTH`.</span>
+<span class="sd">            keyboard (:obj:`Keyboard`, optional): Keyboard to be sent.</span>
+<span class="sd">            timeout (:obj:`int` | :obj:`float`, optional): If this value is specified, use it as</span>
+<span class="sd">                the read timeout from the server (instead of the one specified during creation of</span>
+<span class="sd">                the connection pool).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :class:`viber.Message`: On success, the sent message is returned.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            :class:`viber.ViberError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">/send_message&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;receiver&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+            <span class="s2">&quot;min_api_version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;avatar&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">avatar</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;media&quot;</span><span class="p">:</span> <span class="n">url_address</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">tracking_data</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;tracking_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracking_data</span>
+        <span class="k">if</span> <span class="n">keyboard</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;keyboard&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keyboard</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">payload</span></div>
+
+<div class="viewcode-block" id="Bot.send_sticker"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot.send_sticker">[docs]</a>    <span class="nd">@message</span>
+    <span class="k">def</span> <span class="nf">send_sticker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">sticker_id</span><span class="p">,</span> <span class="n">tracking_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keyboard</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use this method to send sticker messages.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (:obj:`str`): Unique identifier for the target user.</span>
+<span class="sd">            sticker_id (:obj:`int`): Unique Viber sticker ID. For examples visit https://viber.github.io/docs/tools/sticker-ids/ page.</span>
+
+<span class="sd">            tracking_data (:obj:`str`, optional): Allow the account to track messages and user&#39;s replies.</span>
+<span class="sd">                Sent tracking_data value will be passed back with user&#39;s reply. Max 4000 characters. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_TRACKING_DATA_LENGTH`.</span>
+<span class="sd">            keyboard (:obj:`Keyboard`, optional): Keyboard to be sent.</span>
+<span class="sd">            timeout (:obj:`int` | :obj:`float`, optional): If this value is specified, use it as</span>
+<span class="sd">                the read timeout from the server (instead of the one specified during creation of</span>
+<span class="sd">                the connection pool).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :class:`viber.Message`: On success, the sent message is returned.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            :class:`viber.ViberError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">/send_message&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;receiver&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+            <span class="s2">&quot;min_api_version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;avatar&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">avatar</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">sticker</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;sticker_id&quot;</span><span class="p">:</span> <span class="n">sticker_id</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">tracking_data</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;tracking_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracking_data</span>
+        <span class="k">if</span> <span class="n">keyboard</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;keyboard&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keyboard</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">payload</span></div>
+
+<div class="viewcode-block" id="Bot.send_carousel"><a class="viewcode-back" href="../../viber.html#viber.bot.Bot.send_carousel">[docs]</a>    <span class="nd">@message</span>
+    <span class="k">def</span> <span class="nf">send_carousel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">rich_media</span><span class="p">,</span> <span class="n">min_api_version</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">tracking_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keyboard</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use this method to send url messages.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Carousel Content Message is supported on devices running Viber version 6.7 and above.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (:obj:`str`): Unique identifier for the target user.</span>
+<span class="sd">            rich_media (:obj:`Keyboard`): Keyboard with type rich_media.</span>
+<span class="sd">            min_api_version (:obj:`int`): Minimal api version.</span>
+
+<span class="sd">            tracking_data (:obj:`str`, optional): Allow the account to track messages and user&#39;s replies.</span>
+<span class="sd">                Sent tracking_data value will be passed back with user&#39;s reply. Max 4000 characters. Also found as</span>
+<span class="sd">                :attr:`viber.constants.MAX_TRACKING_DATA_LENGTH`.</span>
+<span class="sd">            keyboard (:obj:`Keyboard`, optional): Keyboard to be sent.</span>
+<span class="sd">            timeout (:obj:`int` | :obj:`float`, optional): If this value is specified, use it as</span>
+<span class="sd">                the read timeout from the server (instead of the one specified during creation of</span>
+<span class="sd">                the connection pool).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :class:`viber.Message`: On success, the sent message is returned.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            :class:`viber.ViberError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">/send_message&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;receiver&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+            <span class="s2">&quot;min_api_version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;avatar&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">avatar</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">rich_media</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;rich_media&quot;</span><span class="p">:</span> <span class="n">rich_media</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">min_api_version</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;min_api_version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_api_version</span>
+        <span class="k">if</span> <span class="n">tracking_data</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;tracking_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracking_data</span>
+        <span class="k">if</span> <span class="n">keyboard</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;keyboard&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keyboard</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">payload</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Flowelcat
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
