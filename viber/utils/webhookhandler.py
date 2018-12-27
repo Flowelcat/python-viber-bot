@@ -2,6 +2,7 @@ import hashlib
 import hmac
 import json
 import logging
+import os
 from threading import Lock
 
 from future.utils import bytes_to_native_str
@@ -22,13 +23,17 @@ class _InvalidPost(Exception):
 
 
 class WebhookServer(BaseHTTPServer.HTTPServer, object):
+    ALLOWED_GET_MEDIA_TYPES = ('.png', '.jpg', '.jpeg')
 
-    def __init__(self, server_address, RequestHandlerClass, event_queue, webhook_path, bot):
+    def __init__(self, server_address, RequestHandlerClass, event_queue, webhook_path, bot, media_url='/media', media_path=None):
         super(WebhookServer, self).__init__(server_address, RequestHandlerClass)
         self.logger = logging.getLogger(__name__)
         self.event_queue = event_queue
         self.webhook_path = webhook_path
         self.bot = bot
+        self.media_url = media_url
+        self.media_path = media_path
+
         self.is_running = False
         self.server_lock = Lock()
         self.shutdown_lock = Lock()
@@ -67,8 +72,19 @@ class WebhookHandler(BaseHTTPServer.BaseHTTPRequestHandler, object):
         self.end_headers()
 
     def do_GET(self):
-        self.send_response(200)
-        self.end_headers()
+        if self.path.startswith(self.server.media_url) and self.path.endswith(self.server.ALLOWED_GET_MEDIA_TYPES) and self.server.media_path is not None:
+            file_path = self.path.strip(self.server.media_url).strip('/')
+            path_parts = file_path.split('/')
+
+            self.send_response(200)
+            self.send_header('Content-type', 'image/*')
+            self.end_headers()
+            with open(os.path.join(self.server.media_path, *path_parts), 'rb') as f:
+                self.wfile.write(f.read())
+            return
+        else:
+            self.send_response(200)
+            self.end_headers()
 
     def do_POST(self):
         self.logger.debug('Webhook triggered')
@@ -97,7 +113,6 @@ class WebhookHandler(BaseHTTPServer.BaseHTTPRequestHandler, object):
 
     def verify_signature(self, request_data, signature):
         return signature == self._calculate_message_signature(request_data)
-
 
     def _validate_post(self, data):
         if not (self.verify_signature(data, self.path.replace('/?sig=', "")) and 'content-type' in self.headers and self.headers['content-type'] == 'application/json;charset=UTF-8'):

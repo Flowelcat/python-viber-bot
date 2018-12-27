@@ -82,28 +82,21 @@ class Request(object):
             # TODO: do something smart here; for now just raise NetworkError
             raise NetworkError('urllib3 HTTPError {0}'.format(error))
 
-        try:
-            data = self._parse(resp.data)
-        except ValueError:
-            message = 'Unknown HTTPError'
+
 
         if 200 <= resp.status <= 299:
             # 200-299 range are HTTP success statuses
-            if isinstance(data, dict):
-                response_status = data['status']
-                if response_status == 0:
-                    return data
-                elif response_status == 1:
-                    raise InvalidWebhookUrl(data['status_message'])
-                else:
-                    raise NetworkError(data or message)
-            else:
-                return data
+            return resp.data
+
+        try:
+            message = self._parse(resp.data)
+        except ValueError:
+            message = 'Unknown HTTPError'
 
         if resp.status in (401, 403):
-            raise Unauthorized(data)
+            raise Unauthorized(message)
         elif resp.status == 400:
-            raise BadRequest(data)
+            raise BadRequest(message)
         elif resp.status == 404:
             raise InvalidToken()
         elif resp.status == 502:
@@ -121,7 +114,17 @@ class Request(object):
                                        body=json.dumps(data).encode('utf-8'),
                                        headers={'Content-Type': 'application/json'})
 
-        return result
+        parsed_data = self._parse(result)
+        if isinstance(parsed_data, dict):
+            response_status = parsed_data['status']
+            if response_status == 0:
+                return parsed_data
+            elif response_status == 1:
+                raise InvalidWebhookUrl(parsed_data['status_message'])
+            else:
+                raise NetworkError()
+        else:
+            return parsed_data
 
     def retrieve(self, url, timeout=None, **params):
         """Retrieve the contents of a file by its URL.
@@ -139,3 +142,21 @@ class Request(object):
         urlopen_kwargs.update({'fields': params})
 
         return self._request_wrapper('GET', url, **urlopen_kwargs)
+
+    def download(self, url, filename, timeout=None):
+        """Download a file by its URL.
+
+        Args:
+            url (str): The web location we want to retrieve.
+            timeout (:obj:`int` | :obj:`float`): If this value is specified, use it as the read
+                timeout from the server (instead of the one specified during creation of the
+                connection pool).
+
+          filename:
+            The filename within the path to download the file.
+
+        """
+        buf = self.retrieve(url, timeout=timeout)
+        with open(filename, 'wb') as fobj:
+            fobj.write(buf)
+

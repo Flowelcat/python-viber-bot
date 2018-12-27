@@ -136,7 +136,9 @@ class Updater(object):
                       cert=None,
                       key=None,
                       webhook_url=None,
-                      event_types=None):
+                      event_types=None,
+                      media_url='/media',
+                      media_path=None):
         """
         Starts a small http server to listen for events via webhook. If cert
         and key are not provided, the webhook will be started directly on
@@ -153,6 +155,8 @@ class Updater(object):
             webhook_url (:obj:`str`, optional): Explicitly specify the webhook url. Useful behind
                 NAT, reverse proxy, etc. Default is derived from `listen`, `port` & `url_path`.
             event_types (List[:obj:`str`], optional): Passed to :attr:`viber.Bot.set_webhook`.
+            media_url (:obj:`str`, optional): Url path for giving media to GET requests
+            media_path  (:obj:`str`, optional): Path to folder containing media files for giving them to GET requests.
 
         Returns:
             :obj:`Queue`: The update queue that can be filled from the main thread.
@@ -173,7 +177,7 @@ class Updater(object):
 
                 self.job_queue.start()
                 self._init_thread(self.dispatcher.start, "dispatcher"),
-                self._init_thread(self._start_webhook, "updater", listen, port, url_path)
+                self._init_thread(self._start_webhook, "updater", listen, port, url_path, media_url, media_path)
 
                 use_ssl = cert is not None and key is not None
                 if use_ssl:
@@ -190,12 +194,12 @@ class Updater(object):
                 # Return the update queue so the main thread can insert updates
                 return self.event_queue
 
-    def _start_webhook(self, listen, port, url_path):
+    def _start_webhook(self, listen, port, url_path, media_url='/media', media_path=None):
 
         if not url_path.startswith('/'):
             url_path = '/{0}'.format(url_path)
 
-        self.httpd = WebhookServer((listen, port), WebhookHandler, self.event_queue, url_path, self.bot)
+        self.httpd = WebhookServer((listen, port), WebhookHandler, self.event_queue, url_path, self.bot, media_url, media_path)
         self.logger.debug('Updater thread started (webhook) on "{}"'.format(url_path))
 
         self.httpd.serve_forever(poll_interval=1)
