@@ -1,9 +1,9 @@
-"""This module contains the SubscribedHandler class."""
+"""This module contains the ConversationStartedHandler class."""
 from viber.event import Event, EventType
 from viber.ext.handler import Handler
 
 
-class SubscribedHandler(Handler):
+class ConversationStartedHandler(Handler):
 
     def __init__(self,
                  callback,
@@ -11,14 +11,14 @@ class SubscribedHandler(Handler):
                  pass_job_queue=False,
                  pass_user_data=False):
 
-        super(SubscribedHandler, self).__init__(
+        super(ConversationStartedHandler, self).__init__(
             callback,
             pass_event_queue=pass_event_queue,
             pass_job_queue=pass_job_queue,
             pass_user_data=pass_user_data)
 
     def check_event(self, event):
-        if isinstance(event, Event) and event.event == EventType.subscribed:
+        if isinstance(event, Event) and event.event == EventType.conversation_started:
             return True
         else:
             return False

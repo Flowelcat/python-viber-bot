@@ -1,3 +1,4 @@
+"""This module contains the TrackingDataHandler class."""
 import re
 
 from future.utils import string_types
@@ -43,7 +44,7 @@ class TrackingDataHandler(Handler):
                     if not self.filters:
                         return bool(match)
                     else:
-                        return  bool(match) and self.filters(event.message)
+                        return bool(match) and self.filters(event.message)
             else:
                 return True
 
