@@ -236,7 +236,7 @@ class Dispatcher(object):
 
         while 1:
             try:
-                # Pop update from update queue.
+                # Pop event from event queue.
                 event = self.event_queue.get(True, 1)
             except Empty:
                 if self.__stop_event.is_set():
@@ -332,7 +332,7 @@ class Dispatcher(object):
 
             # Dispatch any error.
             except ViberError as ve:
-                self.logger.warning('A ViberError was raised while processing the Update')
+                self.logger.warning('A ViberError was raised while processing the Event')
 
                 try:
                     self.dispatch_error(event, ve)

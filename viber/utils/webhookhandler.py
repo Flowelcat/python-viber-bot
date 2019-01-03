@@ -75,11 +75,14 @@ class WebhookHandler(BaseHTTPServer.BaseHTTPRequestHandler, object):
         if self.path.startswith(self.server.media_url) and self.path.endswith(self.server.ALLOWED_GET_MEDIA_TYPES) and self.server.media_path is not None:
             file_path = self.path.strip(self.server.media_url).strip('/')
             path_parts = file_path.split('/')
+            file_path = os.path.normpath(os.path.join(self.server.media_path, *path_parts))
+            length = os.path.getsize(file_path)
 
             self.send_response(200)
-            self.send_header('Content-type', 'image/*')
+            self.send_header('content-type', 'image/jpeg, image/png')
+            self.send_header('content-length', length)
             self.end_headers()
-            with open(os.path.join(self.server.media_path, *path_parts), 'rb') as f:
+            with open(file_path, 'rb') as f:
                 self.wfile.write(f.read())
             return
         else:
@@ -105,7 +108,7 @@ class WebhookHandler(BaseHTTPServer.BaseHTTPRequestHandler, object):
 
             event = Event.from_dict(json.loads(json_string), self.server.bot)
 
-            self.logger.debug('Received Update with message_token %d on Webhook' % event.message_token)
+            self.logger.debug('Received Event with message_token %d on Webhook' % event.message_token)
             self.server.event_queue.put(event)
 
     def _calculate_message_signature(self, message):

@@ -122,7 +122,7 @@ class Request(object):
             elif response_status == 1:
                 raise InvalidWebhookUrl(parsed_data['status_message'])
             else:
-                raise NetworkError()
+                raise NetworkError('status_message: ' + parsed_data['status_message'])
         else:
             return parsed_data
 

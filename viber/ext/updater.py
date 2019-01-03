@@ -24,7 +24,7 @@ class Updater(object):
     """
     This class, which employs the :class:`viber.ext.Dispatcher`, provides a frontend to
     :class:`viber.Bot` to the programmer, so they can focus on coding the bot. Its purpose is to
-    receive the updates from Viber and to deliver them to said dispatcher. It also runs in a
+    receive the events from Viber and to deliver them to said dispatcher. It also runs in a
     separate thread, so the user can interact with the bot, for example on the command line. The
     dispatcher supports handlers for different kinds of data: Events from Viber, basic text
     commands and even arbitrary types. The updater can be started as a webhook to receive events.
@@ -159,7 +159,7 @@ class Updater(object):
             media_path  (:obj:`str`, optional): Path to folder containing media files for giving them to GET requests.
 
         Returns:
-            :obj:`Queue`: The update queue that can be filled from the main thread.
+            :obj:`Queue`: The event queue that can be filled from the main thread.
 
         Note:
             Server must user a valid SSL. Viber doesn't support self signed certificates.
@@ -191,7 +191,7 @@ class Updater(object):
 
                 self.logger.info("Webhook binded to {}".format(webhook_url))
 
-                # Return the update queue so the main thread can insert updates
+                # Return the event queue so the main thread can insert updates
                 return self.event_queue
 
     def _start_webhook(self, listen, port, url_path, media_url='/media', media_path=None):
