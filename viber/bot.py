@@ -265,7 +265,7 @@ class Bot(ViberObject):
         """
 
         if not event_types:
-            event_types = [et.value for et in EventType]
+            event_types = [et for et in EventType]
 
         _url = '{0}/set_webhook'.format(self.base_url)
         payload = {'url': url,
