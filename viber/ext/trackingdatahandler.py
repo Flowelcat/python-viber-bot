@@ -38,15 +38,22 @@ class TrackingDataHandler(Handler):
 
     def check_event(self, event):
         if isinstance(event, Event) and event.message and event.message.tracking_data:
+            
             if self.pattern:
-                if event.message.tracking_data:
-                    match = re.match(self.pattern, event.message.tracking_data)
-                    if not self.filters:
-                        return bool(match)
-                    else:
-                        return bool(match) and self.filters(event.message)
+                match = bool(re.match(self.pattern, event.message.tracking_data))
             else:
-                return True
+                match = True
+
+            if not self.filters:
+                res = match
+            else:
+                res = self.filters(event.message) and match
+
+        else:
+            res = False
+
+        return res
+
 
     def handle_event(self, update, dispatcher):
 

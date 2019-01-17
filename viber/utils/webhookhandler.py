@@ -73,7 +73,7 @@ class WebhookHandler(BaseHTTPServer.BaseHTTPRequestHandler, object):
 
     def do_GET(self):
         if self.path.startswith(self.server.media_url) and self.path.endswith(self.server.ALLOWED_GET_MEDIA_TYPES) and self.server.media_path is not None:
-            file_path = self.path.strip(self.server.media_url).strip('/')
+            file_path = self.path.replace(self.server.media_url, '').strip('/')
             path_parts = file_path.split('/')
             file_path = os.path.normpath(os.path.join(self.server.media_path, *path_parts))
             length = os.path.getsize(file_path)
