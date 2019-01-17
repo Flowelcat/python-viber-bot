@@ -1,6 +1,7 @@
 import os
 
 from setuptools import setup, find_packages
+from viber.version import __version__
 
 
 def requirements():
