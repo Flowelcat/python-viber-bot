@@ -49,9 +49,11 @@ class Message(ViberObject):
             del data['media']
         if data['type'] is MessageType.file:
             data['file'] = File.from_url(data['media'], bot, data['file_name'], data['size'])
-            del data['file_name']
             del data['size']
             del data['media']
+
+        if 'file_name' in data:
+            del data['file_name']
 
 
 
