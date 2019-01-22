@@ -54,6 +54,7 @@ class Message(ViberObject):
 
         if 'file_name' in data:
             del data['file_name']
+            del data['size']
 
 
 
