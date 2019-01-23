@@ -46,17 +46,15 @@ class Message(ViberObject):
         if data['type'] is MessageType.picture:
             data['picture'] = Picture.from_url(data['media'], bot)
             data['thumbnail'] = Picture.from_url(data['thumbnail'], bot)
-            del data['media']
         if data['type'] is MessageType.file:
             data['file'] = File.from_url(data['media'], bot, data['file_name'], data['size'])
-            del data['size']
-            del data['media']
 
         if 'file_name' in data:
             del data['file_name']
+        if 'size' in data:
             del data['size']
-
-
+        if 'media' in data:
+            del data['media']
 
         # data['text'] = data.get('text')
         # data['media'] = data.get('media')
